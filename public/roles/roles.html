@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation-essential/5.5.3/css/foundation.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+  <link rel="stylesheet" href="roles.css">
+  <title>Secret Hitler</title>
+</head>
+
+
+<body ng-app="roleApp" ng-controller="roleController">
+
+
+<div class="welcomePanel">Secret Hitler - Player List</div>
+
+<form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
+
+      <input ng-model="player.i" ng-change="buttonCheck()" required/>
+      <input ng-model="player.ii" ng-change="buttonCheck()" required/>
+      <input ng-model="player.iii" ng-change="buttonCheck()"  required/>
+      <input ng-model="player.iv" ng-change="buttonCheck()"  required/>
+      <input ng-model="player.v" ng-change="buttonCheck()"  required/>
+      <input ng-model="player.vi" ng-change="buttonCheck()"  required/>
+      <input ng-model="player.vii" ng-change="buttonCheck()" required/>
+      <input ng-model="player.viii" ng-change="buttonCheck()" />
+      <input ng-model="player.ix" ng-change="buttonCheck()" />
+      <input ng-model="player.x" ng-change="buttonCheck()" />
+    <!--<div class="columns medium-12">-->
+      <button id="startButton" ng-click="startGame()" ng-style="{'background-color': isStartReady}">START GAME</button>
+    <!--</div>-->
+
+</form>
+
+<div id="playerButtonList" ng-model="playerButtonList" ng-class="playerButtonListHiddenOrShown">
+  <button ng-repeat="(key, value) in player" class="playerButton"> {{value}} </button>
+</div>
+
+<div class="displayPanels">
+  <!--change this class name to something that makes more sense now that the words are also displayed-->
+  <div ng-bind="countDownDisplay" class="countDownDisplay"></div>
+  <div ng-bind="wordDisplay" class="wordDisplay" ng-style="{'font-size': dependsOnWordLength}"></div>
+  <div ng-bind="logoDisplay" class="logoDisplay" ng-style="{'display': isNoneOrBlock}">
+    <!--<img src=assets/blackoriginalorderfw.png >-->
+  </div>
+</div>
+
+
+
+
+<script src="roles.js"></script>
+</body>
+</html>
