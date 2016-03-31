@@ -28,14 +28,29 @@
       <input ng-model="player.viii" ng-change="buttonCheck()" />
       <input ng-model="player.ix" ng-change="buttonCheck()" />
       <input ng-model="player.x" ng-change="buttonCheck()" />
-    <!--<div class="columns medium-12">-->
+
+    <!--<input ng-model="player[0]" ng-change="buttonCheck()" required/>-->
+    <!--<input ng-model="player[1]" ng-change="buttonCheck()" required/>-->
+    <!--<input ng-model="player[2]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[3]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[4]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[5]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[6]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[7]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[8]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[9]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[10]" ng-change="buttonCheck()"  required/>-->
+
+
+  <!--<div class="columns medium-12">-->
       <button id="startButton" ng-click="startGame()" ng-style="{'background-color': isStartReady}">START GAME</button>
     <!--</div>-->
 
 </form>
 
 <div id="playerButtonList" ng-model="playerButtonList" ng-class="playerButtonListHiddenOrShown">
-  <button ng-repeat="(key, value) in player" class="playerButton"> {{value}} </button>
+  <button ng-repeat="(key, value) in player" class="playerButton" ng-click="showRole(value)"> {{value}} </button>
+  <span ng-model="playerDesc">{{desc}}</span>
 </div>
 
 <div class="displayPanels">
