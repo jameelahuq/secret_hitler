@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation-essential/5.5.3/css/foundation.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>-->
+  <script src="../lib/angular.js"></script>
   <link rel="stylesheet" href="roles.css">
   <title>Secret Hitler</title>
 </head>
@@ -18,40 +19,48 @@
 
 <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
 
-      <input ng-model="player.i" ng-change="buttonCheck()" required/>
-      <input ng-model="player.ii" ng-change="buttonCheck()" required/>
-      <input ng-model="player.iii" ng-change="buttonCheck()"  required/>
-      <input ng-model="player.iv" ng-change="buttonCheck()"  required/>
-      <input ng-model="player.v" ng-change="buttonCheck()"  required/>
-      <input ng-model="player.vi" ng-change="buttonCheck()"  required/>
-      <input ng-model="player.vii" ng-change="buttonCheck()" required/>
-      <input ng-model="player.viii" ng-change="buttonCheck()" />
-      <input ng-model="player.ix" ng-change="buttonCheck()" />
-      <input ng-model="player.x" ng-change="buttonCheck()" />
+      <input ng-model="player.i" ng-change="assignButtonGreyOrGreen()" required/>
+      <input ng-model="player.ii" ng-change="assignButtonGreyOrGreen()" required/>
+      <input ng-model="player.iii" ng-change="assignButtonGreyOrGreen()"  required/>
+      <input ng-model="player.iv" ng-change="assignButtonGreyOrGreen()"  required/>
+      <input ng-model="player.v" ng-change="assignButtonGreyOrGreen()"  required/>
+      <input ng-model="player.vi" ng-change="assignButtonGreyOrGreen()"  required/>
+      <input ng-model="player.vii" ng-change="assignButtonGreyOrGreen()" required/>
+      <input ng-model="player.viii" ng-change="assignButtonGreyOrGreen()" />
+      <input ng-model="player.ix" ng-change="assignButtonGreyOrGreen()" />
+      <input ng-model="player.x" ng-change="assignButtonGreyOrGreen()" />
 
-    <!--<input ng-model="player[0]" ng-change="buttonCheck()" required/>-->
-    <!--<input ng-model="player[1]" ng-change="buttonCheck()" required/>-->
-    <!--<input ng-model="player[2]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[3]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[4]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[5]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[6]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[7]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[8]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[9]" ng-change="buttonCheck()"  required/>-->
-    <!--<input ng-model="player[10]" ng-change="buttonCheck()"  required/>-->
+    <!--<input ng-model="player[0]" ng-change="assignButtonGreyOrGreen()" required/>-->
+    <!--<input ng-model="player[1]" ng-change="assignButtonGreyOrGreen()" required/>-->
+    <!--<input ng-model="player[2]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[3]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[4]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[5]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[6]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[7]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[8]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[9]" ng-change="assignButtonGreyOrGreen()"  required/>-->
+    <!--<input ng-model="player[10]" ng-change="assignButtonGreyOrGreen()"  required/>-->
 
 
   <!--<div class="columns medium-12">-->
-      <button id="startButton" ng-click="startGame()" ng-style="{'background-color': isStartReady}">START GAME</button>
+      <button id="startButton" ng-click="assignRoles()" ng-style="{'background-color': isStartReady}">ASSIGN ROLES</button>
     <!--</div>-->
 
 </form>
+<div id="playerButtonList" ng-class="playerButtonListHiddenOrShown" ng-style="{'display': isNoneOrBlock}">
+  <div ng-repeat='playerName in playerArray track by $index' >
+    <!--<span ng-class="presidentOrNot" class="president"></span>-->
+    <button ng-disabled="statsChecked(playerName) && !gameHasStarted" ng-click="showRole(playerName)" class="playerButton">{{playerName}}</button>
+  </div>
+</div>\
+<button></button>
 
-<div id="playerButtonList" ng-model="playerButtonList" ng-class="playerButtonListHiddenOrShown">
-  <button ng-repeat="(key, value) in player" class="playerButton" ng-click="showRole(value)"> {{value}} </button>
-  <span ng-model="playerDesc">{{desc}}</span>
-</div>
+<span ng-model="playerDesc" ng-if="roleShowing" >{{desc}}</span>
+<button ng-if="roleShowing" ng-click="hideRole()">Done Viewing</button>
+<button ng-disabled=true ng-if="allChecked && !gameHasStarted" ng-click="startGame()" >Start Game</button>
+<span ng-model="presidentDeclaration"> {{thisPresident}}</span>
+
 
 <div class="displayPanels">
   <!--change this class name to something that makes more sense now that the words are also displayed-->

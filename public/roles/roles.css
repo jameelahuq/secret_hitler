@@ -12,6 +12,7 @@ body {
   background-color: black;
   font-family: 'Helvetica', 'Arial', sans-serif;
   padding: 30px;
+  color: white;
 }
 
 .welcomePanel {
@@ -62,4 +63,9 @@ body {
   -webkit-text-stroke-width: 4px;
   -webkit-text-stroke-color: black;
   font-weight: bolder;
+}
+
+.president {
+  background-color: yellow;
+  width: auto;
 }

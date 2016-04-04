@@ -6,39 +6,44 @@ ngApp.controller('roleController', function($scope) {
   //initialization
   $scope.playerButtonListHiddenOrShown = [];
   $scope.playerButtonListHiddenOrShown.push("hide");
+  $scope.gameHasStarted = false;
 
-  $scope.buttonCheck = function() {
+  $scope.assignButtonGreyOrGreen = function() {
       var playerNames = new Array;
 
       for(var i in $scope.player) {
-        playerNames.push($scope.player[i]);
+        playerNames.push($scope.player[i].toUpperCase());
       }
 
       if (playerNames.length  >= 7) {
         $scope.isStartReady = 'green';
+        $scope.enoughPlayers = false;
       } else {
         $scope.isStartReady = 'grey';
+        $scope.enoughPlayers = true;
+
       }
 
     $scope.playerArray = playerNames;
   };
 
 
-  $scope.startGame = function() {
+  $scope.assignRoles = function() {
     $scope.playerButtonListHiddenOrShown.pop("hide");
     $scope.playerInputHiddenOrShown = [];
     $scope.playerInputHiddenOrShown.push("hide");
     //assign to each player a random role from the available roles
-    for (var playerNum in $scope.player) {
-      //if (assignedPlayersRoles[i] === 0 )
-      console.log($scope.player[playerNum]);
-    }
+    //for (var playerNum in $scope.player) {
+    //  //if (assignedPlayersRoles[i] === 0 )
+    //  console.log($scope.player[playerNum].toUpperCase);
+    //}
 
-    var thisGamesAssignment =  new playerAssignment($scope.player);
-    console.log(thisGamesAssignment);
+    var thisGamesAssignment =  new playerAssignment($scope.playerArray);
+    $scope.playerObj = thisGamesAssignment;
     //TODO: make 7 mutable
-    var thisGamesNumbers = new playerNumberObj(Object.keys($scope.player).length);
+    var thisGamesNumbers = new playerNumberObj($scope.playerArray.length);
     thisGamesAssignment.assign(thisGamesNumbers);
+    $scope.playerNum = thisGamesNumbers.players;
   };
 
   function playerNumberObj(playerNum) {
@@ -59,11 +64,11 @@ ngApp.controller('roleController', function($scope) {
     }
   }
 
-  function playerAssignment(playerObj) {
-    var playerArray =  $scope.playerArray;
+  function playerAssignment(playerArray) {
     this.liberals = [];
     this.fascists = [];
     this.hitler = [];
+    var playerArray = playerArray.slice();
     this.assign = function(numberOfPlayers) {
 
       var liberals = numberOfPlayers.liberals;
@@ -82,13 +87,55 @@ ngApp.controller('roleController', function($scope) {
         }
         playerArray.splice(i_rand, 1);
       }
-      console.log(playerArray);
-    }
+    };
   }
 
+  $scope.statsChecked = function(value) {
+    return $scope.checkedPlayerArray.indexOf(value) > -1;
+  };
+
+  $scope.checkedPlayerArray = [];
+
+  $scope.hideRole = function() {
+      $scope.desc = "";
+      $scope.roleShowing = false;
+      $scope.isNoneOrBlock = "block";
+    console.log($scope.checkedPlayerArray.length, $scope.playerNum);
+      if ($scope.checkedPlayerArray.length == $scope.playerNum) {
+        $scope.allChecked = true;
+      }
+  };
+
+  $scope.startGame = function() {
+    var playerList = $scope.checkedPlayerArray;
+    var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
+    $scope.gameHasStarted = true;
+    $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
+  };
+
   $scope.showRole = function(value) {
-    console.log(value);
-  }
+    if ($scope.gameHasStarted === true) {
+      return;
+    }
+    $scope.roleShowing = true;
+    $scope.isNoneOrBlock = 'none';
+
+    var playerObj = $scope.playerObj;
+
+    if (playerObj.liberals.indexOf(value) > -1) {
+      $scope.desc = "liberal";
+    }  if (playerObj.fascists.indexOf(value) > -1) {
+      console.log("red", playerObj.fascists, playerObj.hitler );
+      $scope.desc = "fascist: " + playerObj.fascists + " hitler: " + playerObj.hitler;
+    }  if (playerObj.hitler.indexOf(value) > -1) {
+      console.log("hiterler stash");
+      $scope.desc = "hiterler";
+    }
+    $scope.checkedPlayerArray.push(value);
+
+
+  };
+
 
 });
 
