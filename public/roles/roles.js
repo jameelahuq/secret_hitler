@@ -8,6 +8,11 @@ ngApp.controller('roleController', function($scope) {
   $scope.playerButtonListHiddenOrShown.push("hide");
   $scope.gameHasStarted = false;
 
+
+  $scope.statsChecked = function(value) {
+    return $scope.checkedPlayerArray.indexOf(value) > -1;
+  };
+
   $scope.assignButtonGreyOrGreen = function() {
       var playerNames = new Array;
 
@@ -90,10 +95,6 @@ ngApp.controller('roleController', function($scope) {
     };
   }
 
-  $scope.statsChecked = function(value) {
-    return $scope.checkedPlayerArray.indexOf(value) > -1;
-  };
-
   $scope.checkedPlayerArray = [];
 
   $scope.hideRole = function() {
@@ -119,20 +120,38 @@ ngApp.controller('roleController', function($scope) {
     }
     $scope.roleShowing = true;
     $scope.isNoneOrBlock = 'none';
+    $scope.roleList = {};
 
     var playerObj = $scope.playerObj;
 
     if (playerObj.liberals.indexOf(value) > -1) {
-      $scope.desc = "liberal";
-    }  if (playerObj.fascists.indexOf(value) > -1) {
-      console.log("red", playerObj.fascists, playerObj.hitler );
-      $scope.desc = "fascist: " + playerObj.fascists + " hitler: " + playerObj.hitler;
+      $scope.roleList[value] = "LIBERALS";
+
+      displayRoles("LIBERAL", value)
+    } else if (playerObj.fascists.indexOf(value) > -1) {
+      displayRoles("FASCIST", value, playerObj.fascists.concat(playerObj.hitler));
     }  if (playerObj.hitler.indexOf(value) > -1) {
-      console.log("hiterler stash");
-      $scope.desc = "hiterler";
+      displayRoles("HITLER", value, playerObj.hitler);
     }
     $scope.checkedPlayerArray.push(value);
 
+
+
+    function displayRoles(role, thisPlayer, thosePlayers) {
+      $scope.desc = [];
+      $scope.desc.push(thisPlayer + " is " + role);
+      console.log(thosePlayers);
+      if (thosePlayers) {
+        for (var i = 0; i < thosePlayers.length; i++) {
+          if(i === thosePlayers.length-1 && role === "FASCIST") {
+            role = "HITLER";
+          }
+          if (thisPlayer != thosePlayers[i]) {
+            $scope.desc.push(thosePlayers[i] + " is " + role);
+          }
+        }
+      }
+    }
 
   };
 

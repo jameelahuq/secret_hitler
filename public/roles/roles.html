@@ -53,14 +53,15 @@
     <!--<span ng-class="presidentOrNot" class="president"></span>-->
     <button ng-disabled="statsChecked(playerName) && !gameHasStarted" ng-click="showRole(playerName)" class="playerButton">{{playerName}}</button>
   </div>
-</div>\
-<button></button>
+</div>
 
-<span ng-model="playerDesc" ng-if="roleShowing" >{{desc}}</span>
+<!--<span ng-model="playerDesc" ng-if="roleShowing" ng-bind-html="desc"></span>-->
+<div ng-model="playerDesc" ng-repeat="descItem in desc track by $index">{{descItem}}</div>
 <button ng-if="roleShowing" ng-click="hideRole()">Done Viewing</button>
-<button ng-disabled=true ng-if="allChecked && !gameHasStarted" ng-click="startGame()" >Start Game</button>
+<button ng-if="allChecked && !gameHasStarted" ng-click="startGame()">Start Game</button>
 <span ng-model="presidentDeclaration"> {{thisPresident}}</span>
 
+<!--<div  ng-repeat="(key, value) in roleList">{{key}}{{value}}</div>-->
 
 <div class="displayPanels">
   <!--change this class name to something that makes more sense now that the words are also displayed-->
