@@ -101,6 +101,7 @@ ngApp.controller('roleController', function($scope) {
       $scope.desc = "";
       $scope.roleShowing = false;
       $scope.isNoneOrBlock = "block";
+    console.log($scope.checkedPlayerArray, "checked");
     console.log($scope.checkedPlayerArray.length, $scope.playerNum);
       if ($scope.checkedPlayerArray.length == $scope.playerNum) {
         $scope.allChecked = true;
@@ -110,37 +111,46 @@ ngApp.controller('roleController', function($scope) {
   $scope.startGame = function() {
     var playerList = $scope.checkedPlayerArray;
     var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
+    $scope.scrutinizedPlayerArray = [];
     $scope.gameHasStarted = true;
     $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
+    console.log("start Game", playerList);
   };
 
   $scope.showRole = function(value) {
-    if ($scope.gameHasStarted === true) {
-      return;
-    }
+
     $scope.roleShowing = true;
     $scope.isNoneOrBlock = 'none';
-    $scope.roleList = {};
 
     var playerObj = $scope.playerObj;
 
-    if (playerObj.liberals.indexOf(value) > -1) {
-      $scope.roleList[value] = "LIBERALS";
+    //show role after game starts
+    if ($scope.gameHasStarted === true) {
+      $scope.thisPresident = "";
+      if (playerObj.liberals.indexOf(value) > -1) {
+        displayRoles("LIBERAL", value)
+      } else if (playerObj.fascists.indexOf(value) > -1 || playerObj.hitler.indexOf(value) > -1)  {
+        displayRoles("FASCIST", value);
+      }
 
+      $scope.scrutinizedPlayerArray.push(value);
+      return;
+    }
+
+    //show role before game starts
+    if (playerObj.liberals.indexOf(value) > -1) {
       displayRoles("LIBERAL", value)
     } else if (playerObj.fascists.indexOf(value) > -1) {
       displayRoles("FASCIST", value, playerObj.fascists.concat(playerObj.hitler));
     }  if (playerObj.hitler.indexOf(value) > -1) {
       displayRoles("HITLER", value, playerObj.hitler);
     }
+
     $scope.checkedPlayerArray.push(value);
-
-
 
     function displayRoles(role, thisPlayer, thosePlayers) {
       $scope.desc = [];
       $scope.desc.push(thisPlayer + " is " + role);
-      console.log(thosePlayers);
       if (thosePlayers) {
         for (var i = 0; i < thosePlayers.length; i++) {
           if(i === thosePlayers.length-1 && role === "FASCIST") {
@@ -152,9 +162,7 @@ ngApp.controller('roleController', function($scope) {
         }
       }
     }
-
   };
-
 
 });
 

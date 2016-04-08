@@ -51,7 +51,7 @@
 <div id="playerButtonList" ng-class="playerButtonListHiddenOrShown" ng-style="{'display': isNoneOrBlock}">
   <div ng-repeat='playerName in playerArray track by $index' >
     <!--<span ng-class="presidentOrNot" class="president"></span>-->
-    <button ng-disabled="statsChecked(playerName) && !gameHasStarted" ng-click="showRole(playerName)" class="playerButton">{{playerName}}</button>
+    <button ng-disabled="(statsChecked(playerName) && !gameHasStarted ) || scrutinizedPlayerArray.indexOf(playerName) > -1" ng-click="showRole(playerName)" class="playerButton">{{playerName}}</button>
   </div>
 </div>
 
@@ -60,6 +60,7 @@
 <button ng-if="roleShowing" ng-click="hideRole()">Done Viewing</button>
 <button ng-if="allChecked && !gameHasStarted" ng-click="startGame()">Start Game</button>
 <span ng-model="presidentDeclaration"> {{thisPresident}}</span>
+<!--<span ng-model="seePolicies">{{scrutinizedPlayer}}</span>-->
 
 <!--<div  ng-repeat="(key, value) in roleList">{{key}}{{value}}</div>-->
 
