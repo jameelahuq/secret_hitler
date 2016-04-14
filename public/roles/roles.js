@@ -7,6 +7,7 @@ ngApp.controller('roleController', function($scope) {
   $scope.playerButtonListHiddenOrShown = [];
   $scope.playerButtonListHiddenOrShown.push("hide");
   $scope.gameHasStarted = false;
+  $scope.showPlayerButtons = false;
 
 
   $scope.statsChecked = function(value) {
@@ -34,6 +35,7 @@ ngApp.controller('roleController', function($scope) {
 
 
   $scope.assignRoles = function() {
+    $scope.showPlayerButtons = true;
     $scope.playerButtonListHiddenOrShown.pop("hide");
     $scope.playerInputHiddenOrShown = [];
     $scope.playerInputHiddenOrShown.push("hide");
@@ -97,17 +99,6 @@ ngApp.controller('roleController', function($scope) {
 
   $scope.checkedPlayerArray = [];
 
-  $scope.hideRole = function() {
-      $scope.desc = "";
-      $scope.roleShowing = false;
-      $scope.isNoneOrBlock = "block";
-    console.log($scope.checkedPlayerArray, "checked");
-    console.log($scope.checkedPlayerArray.length, $scope.playerNum);
-      if ($scope.checkedPlayerArray.length == $scope.playerNum) {
-        $scope.allChecked = true;
-      }
-  };
-
   $scope.startGame = function() {
     var playerList = $scope.checkedPlayerArray;
     var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
@@ -117,10 +108,25 @@ ngApp.controller('roleController', function($scope) {
     console.log("start Game", playerList);
   };
 
+  $scope.hideRole = function() {
+    $scope.desc = "";
+    $scope.roleShowing = false;
+    $scope.showPlayerButtons = true;
+
+    console.log("roles are showing!");
+    console.log($scope.checkedPlayerArray, "checked");
+    console.log($scope.checkedPlayerArray.length, $scope.playerNum);
+
+    if ($scope.checkedPlayerArray.length == $scope.playerNum) {
+      $scope.allChecked = true;
+    }
+  };
+
   $scope.showRole = function(value) {
 
     $scope.roleShowing = true;
-    $scope.isNoneOrBlock = 'none';
+    $scope.showPlayerButtons = false;
+    console.log("roles are showing!");
 
     var playerObj = $scope.playerObj;
 

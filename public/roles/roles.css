@@ -49,13 +49,35 @@ body {
 #hideButton {
   background-color: black;
   font-size: 30px;
-
 }
+
+/*#playerButtonList {*/
+  /*display: block;*/
+/*}*/
 
 .playerButton {
-  display: list-item;
+
 }
 
+#playerDescDisplay {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#playerDescList {
+  list-style: none;
+  margin: auto;
+  font-size: 20px;
+}
+
+#doneViewing {
+  margin-top: auto;
+}
+
+#startButton {
+
+}
 .wordDisplay {
   color: white;
   outline-color: black;
