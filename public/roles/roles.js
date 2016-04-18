@@ -4,19 +4,22 @@ var ngApp = angular.module('roleApp', []);
 
 ngApp.controller('roleController', function($scope) {
   //initialization
-  $scope.playerButtonListHiddenOrShown = [];
-  $scope.playerButtonListHiddenOrShown.push("hide");
   $scope.gameHasStarted = false;
   $scope.showPlayerButtons = false;
 
 
+  // TODO: Instead of using a separate checkedPlayerArray, let the player object have a "checked" property
   $scope.statsChecked = function(value) {
     return $scope.checkedPlayerArray.indexOf(value) > -1;
   };
 
+  // TODO: Function should just be isStartRead to return a boolean, which the start button uses for ng-disabled
+  // Then, CSS style :disabled (or [disabled]? i forget) with gray
   $scope.assignButtonGreyOrGreen = function() {
       var playerNames = new Array;
 
+      // TODO: "player" is confusing, need a "players" *array*
+      // Then, you'll just check the length of that array without this processing every time
       for(var i in $scope.player) {
         playerNames.push($scope.player[i].toUpperCase());
       }
@@ -30,13 +33,14 @@ ngApp.controller('roleController', function($scope) {
 
       }
 
+    // TODO: This is basically the model you should be using all along
     $scope.playerArray = playerNames;
   };
 
 
   $scope.assignRoles = function() {
     $scope.showPlayerButtons = true;
-    $scope.playerButtonListHiddenOrShown.pop("hide");
+    // TODO: Remove this dead code!
     $scope.playerInputHiddenOrShown = [];
     $scope.playerInputHiddenOrShown.push("hide");
     //assign to each player a random role from the available roles
@@ -45,8 +49,11 @@ ngApp.controller('roleController', function($scope) {
     //  console.log($scope.player[playerNum].toUpperCase);
     //}
 
+    // TODO: by convention, classes are ALWAYS capitalized
+    // TODO: code review the assignment phase
     var thisGamesAssignment =  new playerAssignment($scope.playerArray);
     $scope.playerObj = thisGamesAssignment;
+    // TODO: remove TODO
     //TODO: make 7 mutable
     var thisGamesNumbers = new playerNumberObj($scope.playerArray.length);
     thisGamesAssignment.assign(thisGamesNumbers);
@@ -56,6 +63,7 @@ ngApp.controller('roleController', function($scope) {
   function playerNumberObj(playerNum) {
     this.players = playerNum;
     this.hitler = 1;
+    // TODO: switch case
     if (playerNum === 7) {
       this.liberals = 4;
       this.fascists = 2;
@@ -104,6 +112,8 @@ ngApp.controller('roleController', function($scope) {
     var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
     $scope.scrutinizedPlayerArray = [];
     $scope.gameHasStarted = true;
+    // TODO: String should be built in the HTML, not in the JS
+    // Use something like {{thisPresident}} is PRESIDENT
     $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
     console.log("start Game", playerList);
   };
@@ -113,6 +123,7 @@ ngApp.controller('roleController', function($scope) {
     $scope.roleShowing = false;
     $scope.showPlayerButtons = true;
 
+    // TODO: cleanup all console logs when done (if done)
     console.log("roles are showing!");
     console.log($scope.checkedPlayerArray, "checked");
     console.log($scope.checkedPlayerArray.length, $scope.playerNum);

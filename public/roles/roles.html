@@ -15,36 +15,51 @@
 
 <body ng-app="roleApp" ng-controller="roleController">
 
-<form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
+<!-- TODO: fix all indentation -->
+  <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
 
-      <input ng-model="player.i" ng-change="assignButtonGreyOrGreen()" required  class="row medium-6"/></li>
-      <input ng-model="player.ii" ng-change="assignButtonGreyOrGreen()" required  class="row medium-6"/>
-      <input ng-model="player.iii" ng-change="assignButtonGreyOrGreen()"  required  class="row medium-6"/>
-      <input ng-model="player.iv" ng-change="assignButtonGreyOrGreen()"  required  class="row medium-6"/>
-      <input ng-model="player.v" ng-change="assignButtonGreyOrGreen()"  required class="row medium-6"/>
-      <input ng-model="player.vi" ng-change="assignButtonGreyOrGreen()"  required class="row medium-6"/>
-      <input ng-model="player.vii" ng-change="assignButtonGreyOrGreen()" required class="row medium-6"/>
-      <input ng-model="player.viii" ng-change="assignButtonGreyOrGreen()"  class="row medium-6"/>
-      <input ng-model="player.ix" ng-change="assignButtonGreyOrGreen()" class="row medium-6" />
-      <input ng-model="player.x" ng-change="assignButtonGreyOrGreen()" class="row medium-6" />
-      <button id="assignButton" ng-click="assignRoles()" class="row medium-6" ng-style="{'background-color': isStartReady}">ASSIGN ROLES</button>
+    <!-- TODO: use array and ng-repeat -->
+        <input ng-model="player.i" ng-change="assignButtonGreyOrGreen()" required  class="row medium-6"/>
+        <input ng-model="player.ii" ng-change="assignButtonGreyOrGreen()" required  class="row medium-6"/>
+        <input ng-model="player.iii" ng-change="assignButtonGreyOrGreen()"  required  class="row medium-6"/>
+        <input ng-model="player.iv" ng-change="assignButtonGreyOrGreen()"  required  class="row medium-6"/>
+        <input ng-model="player.v" ng-change="assignButtonGreyOrGreen()"  required class="row medium-6"/>
+        <input ng-model="player.vi" ng-change="assignButtonGreyOrGreen()"  required class="row medium-6"/>
+        <input ng-model="player.vii" ng-change="assignButtonGreyOrGreen()" required class="row medium-6"/>
+        <input ng-model="player.viii" ng-change="assignButtonGreyOrGreen()"  class="row medium-6"/>
+        <input ng-model="player.ix" ng-change="assignButtonGreyOrGreen()" class="row medium-6" />
+        <input ng-model="player.x" ng-change="assignButtonGreyOrGreen()" class="row medium-6" />
+    <!-- TODO: isStartReady should be a boolean, then use ng-class and a "ready" class to set the style conditionally -->
+    <!-- e.g., ng-class="{isStartReady ? 'ready' : ''}" -->
+    <!-- TODO: for upper case, use text transform CSS and normal case in the HTML -->
+    <!-- TODO: Programmatically disable! -->
+        <button id="assignButton" ng-click="assignRoles()" class="row medium-6" ng-style="{'background-color': isStartReady}">ASSIGN ROLES</button>
 
-</form>
+  </form>
 
-<div id="playerButtonList" ng-class="playerButtonListHiddenOrShown" ng-show="showPlayerButtons">
+<!-- TODO: make buttons fit/scroll when there are 10 -->
+<!-- TODO: avoid IDs, move to classes when possible, IDs are like globals -->
+<!-- TODO: if it's a list, you probably want <ul class="playerRoleButtons"> and <li> wrapped buttons inside -->
+<!-- TODO: choose ng-if if it makes more sense -->
+<div id="playerButtonList" ng-show="showPlayerButtons">
+    <!-- TODO: remove dead code everywhere -->
     <!--<span ng-class="presidentOrNot" class="president"></span>-->
+    <!-- TODO: strings should not be primary keys (DB design 101), have an array of objects instead where each object has a name property  -->
     <button ng-repeat='playerName in playerArray track by $index' class="row medium-6" ng-disabled="(statsChecked(playerName) && !gameHasStarted ) || scrutinizedPlayerArray.indexOf(playerName) > -1" ng-click="showRole(playerName)" class="playerButton">{{playerName}}</button>
     <button id="startButton" ng-if="allChecked && !gameHasStarted" ng-click="startGame()" class="row medium-6">Start Game</button>
 </div>
 
 <!--<span ng-model="playerDesc"  ng-bind-html="desc"></span>-->
+<!-- TODO: ID soup... :( -->
 <div id="playerDescDisplay" ng-if="roleShowing">
   <ul id="playerDescList">
     <li ng-model="playerDesc" ng-repeat="descItem in desc track by $index">{{descItem}}</li>
   </ul>
   <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">Done Viewing</button>
 </div>
-<span ng-model="presidentDeclaration"> {{thisPresident}}</span>
+<span ng-bind="thisPresident"></span>
+
+<!-- TODO: remove more deprecated code -->
 <!--<span ng-model="seePolicies">{{scrutinizedPlayer}}</span>-->
 
 <!--<div  ng-repeat="(key, value) in roleList">{{key}}{{value}}</div>-->
