@@ -26,20 +26,41 @@ ngApp.controller('roleController', function($scope) {
   // Then, CSS style :disabled (or [disabled]? i forget) with gray
   $scope.assignButtonGreyOrGreen = function() {
       var playerNames = new Array;
-
+      //var uniquePlayers = false;
       // TODO: "player" is confusing, need a "players" *array*
       // Then, you'll just check the length of that array without this processing every time
       for(var i in $scope.player) {
-        playerNames.push($scope.player[i].toUpperCase());
+        var thisPlayer = $scope.player[i];
+        if (thisPlayer) {
+          playerNames.push(thisPlayer.toUpperCase());
+        }
       }
 
-      if (playerNames.length  >= 7) {
+
+    var sortedPlayerArray = playerNames.sort(function (a, b) {
+      if (a > b) return 1;
+      if (a < b) return -1;
+      return 0;
+    });
+
+    console.log(sortedPlayerArray);
+
+    function uniquePlayers() {
+      for(i = 0; i < sortedPlayerArray.length; i++) {
+        if(sortedPlayerArray[i] === sortedPlayerArray[i+1]) {
+          return false;
+        }
+      }
+       return true;
+    }
+
+
+      if (playerNames.length  >= 7 && uniquePlayers()) {
         $scope.isStartReady = 'green';
         $scope.enoughPlayers = false;
       } else {
         $scope.isStartReady = 'grey';
         $scope.enoughPlayers = true;
-
       }
 
     // TODO: This is basically the model you should be using all along

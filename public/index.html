@@ -51,31 +51,14 @@
 
 <!--<span ng-model="playerDesc"  ng-bind-html="desc"></span>-->
 <!-- TODO: ID soup... :( -->
-<div id="playerDescDisplay" ng-if="roleShowing">
-  <ul id="playerDescList">
-    <li ng-model="playerDesc" ng-repeat="descItem in desc track by $index">{{descItem}}</li>
-  </ul>
-  <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">Done Viewing</button>
-</div>
+  <div id="playerDescDisplay" ng-if="roleShowing">
+    <ul id="playerDescList">
+      <li ng-model="playerDesc" ng-repeat="descItem in desc track by $index">{{descItem}}</li>
+    </ul>
+    <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">Done Viewing</button>
+  </div>
 <div id="thisPresident" ng-bind="thisPresident"></div>
 
-<!-- TODO: remove more deprecated code -->
-<!--<span ng-model="seePolicies">{{scrutinizedPlayer}}</span>-->
-
-<!--<div  ng-repeat="(key, value) in roleList">{{key}}{{value}}</div>-->
-
-<div class="displayPanels">
-  <!--change this class name to something that makes more sense now that the words are also displayed-->
-  <div ng-bind="countDownDisplay" class="countDownDisplay"></div>
-  <div ng-bind="wordDisplay" class="wordDisplay" ng-style="{'font-size': dependsOnWordLength}"></div>
-  <div ng-bind="logoDisplay" class="logoDisplay" ng-style="{'display': isNoneOrBlock}">
-    <!--<img src=assets/blackoriginalorderfw.png >-->
-  </div>
-</div>
-
-
-
-
 <script src="roles/roles.js"></script>
-</body>
+  </body>
 </html>
