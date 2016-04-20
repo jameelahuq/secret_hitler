@@ -7,6 +7,12 @@ ngApp.controller('roleController', function($scope) {
   $scope.gameHasStarted = false;
   $scope.showPlayerButtons = false;
 
+  $scope.handlePlayerInputKeydown = function(event) {
+    if (event.which === 13) {
+      event.preventDefault();
+      event.target.nextElementSibling.focus();
+    }
+  };
 
   // TODO: Instead of using a separate checkedPlayerArray, let the player object have a "checked" property
   $scope.statsChecked = function(value) {

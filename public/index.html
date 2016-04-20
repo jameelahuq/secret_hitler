@@ -19,15 +19,15 @@
   <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
 
     <!-- TODO: use array and ng-repeat -->
-        <input ng-model="player.i" ng-change="assignButtonGreyOrGreen()" required  class="row medium-6"/>
-        <input ng-model="player.ii" ng-change="assignButtonGreyOrGreen()" required  class="row medium-6"/>
-        <input ng-model="player.iii" ng-change="assignButtonGreyOrGreen()"  required  class="row medium-6"/>
-        <input ng-model="player.iv" ng-change="assignButtonGreyOrGreen()"  required  class="row medium-6"/>
-        <input ng-model="player.v" ng-change="assignButtonGreyOrGreen()"  required class="row medium-6"/>
-        <input ng-model="player.vi" ng-change="assignButtonGreyOrGreen()"  required class="row medium-6"/>
-        <input ng-model="player.vii" ng-change="assignButtonGreyOrGreen()" required class="row medium-6"/>
-        <input ng-model="player.viii" ng-change="assignButtonGreyOrGreen()"  class="row medium-6"/>
-        <input ng-model="player.ix" ng-change="assignButtonGreyOrGreen()" class="row medium-6" />
+        <input ng-model="player.i" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" required  class="row medium-6"/>
+        <input ng-model="player.ii" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" required  class="row medium-6"/>
+        <input ng-model="player.iii" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" required  class="row medium-6"/>
+        <input ng-model="player.iv" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" required  class="row medium-6"/>
+        <input ng-model="player.v" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" required class="row medium-6"/>
+        <input ng-model="player.vi" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" required class="row medium-6"/>
+        <input ng-model="player.vii" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" required class="row medium-6"/>
+        <input ng-model="player.viii" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" class="row medium-6"/>
+        <input ng-model="player.ix" ng-change="assignButtonGreyOrGreen()" ng-keydown="handlePlayerInputKeydown($event)" class="row medium-6" />
         <input ng-model="player.x" ng-change="assignButtonGreyOrGreen()" class="row medium-6" />
     <!-- TODO: isStartReady should be a boolean, then use ng-class and a "ready" class to set the style conditionally -->
     <!-- e.g., ng-class="{isStartReady ? 'ready' : ''}" -->
