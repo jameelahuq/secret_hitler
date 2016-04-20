@@ -23,7 +23,9 @@ body {
 
 
 .playerInputPanel input {
-  border: solid 5px;
+  background: black;
+  color: white;
+  border: grey solid 5px;
   display: list-item;
   height: 50px;
   font-size: 30px;
@@ -78,6 +80,7 @@ body {
 #startButton {
 
 }
+
 .wordDisplay {
   color: white;
   outline-color: black;
@@ -94,4 +97,10 @@ body {
 .president {
   background-color: yellow;
   width: auto;
+}
+
+#thisPresident {
+  margin: auto;
+  font-size: 20px;
+  text-align: center;
 }
