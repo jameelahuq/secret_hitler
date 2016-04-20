@@ -56,12 +56,19 @@ body {
   font-size: 30px;
 }
 
-/*#playerButtonList {*/
-  /*display: block;*/
-/*}*/
+#playerButtonList.gameHasStarted button {
+  display: block;
+  margin-bottom: 10px;
+  text-align: left;
+}
 
-.playerButton {
+#playerButtonList.gameHasStarted button span {
+  padding-left: 50%;
+  margin-left: -100px;
+}
 
+#playerButtonList.gameHasStarted button i {
+  margin-right: 25px;
 }
 
 #playerDescDisplay {
