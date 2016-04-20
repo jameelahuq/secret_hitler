@@ -7,6 +7,9 @@ ngApp.controller('roleController', function($scope) {
   $scope.gameHasStarted = false;
   $scope.showPlayerButtons = false;
 
+  // pull from local storage if available
+  $scope.player = JSON.parse(localStorage.getItem('savedPlayers'));
+
   $scope.handlePlayerInputKeydown = function(event) {
     if (event.which === 13) {
       event.preventDefault();
@@ -45,6 +48,7 @@ ngApp.controller('roleController', function($scope) {
 
 
   $scope.assignRoles = function() {
+    localStorage.setItem('savedPlayers', JSON.stringify($scope.player));
     $scope.showPlayerButtons = true;
     // TODO: Remove this dead code!
     $scope.playerInputHiddenOrShown = [];
