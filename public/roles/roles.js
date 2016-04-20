@@ -46,6 +46,8 @@ ngApp.controller('roleController', function($scope) {
     $scope.playerArray = playerNames;
   };
 
+  // TODO: remove once the models are fixed
+  $scope.assignButtonGreyOrGreen();
 
   $scope.assignRoles = function() {
     localStorage.setItem('savedPlayers', JSON.stringify($scope.player));
