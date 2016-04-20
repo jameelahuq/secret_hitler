@@ -83,6 +83,10 @@ body {
   font-size: 20px;
 }
 
+#playerDescList li:first-child {
+  margin-bottom: 20px;
+}
+
 #doneViewing {
   margin-top: auto;
 }
