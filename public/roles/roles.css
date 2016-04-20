@@ -11,14 +11,13 @@ body {
   font-size: 30px;
   background-color: black;
   font-family: 'Helvetica', 'Arial', sans-serif;
-  padding: 20px;
+  padding: 10px;
   color: white;
+  min-height: 400px;
 }
 
 .playerInputPanel {
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 
@@ -26,13 +25,19 @@ body {
   background: black;
   color: white;
   border: grey solid 2px;
-  padding: 10px;
-  margin: 0 auto 10px auto;
+  border-radius: 0;
+  padding: 0 5px;
+  margin: 0 auto 5px auto;
   display: list-item;
   height: 40px;
   font-size: 30px;
   font-family: 'Helvetica', 'Arial', sans-serif;
   text-transform: uppercase;
+}
+
+.playerInputPanel input:focus {
+  outline: none;
+  border-color: #00A0DC;
 }
 
 #assignButton {
