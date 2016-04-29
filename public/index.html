@@ -56,15 +56,15 @@
 
   <!--<span ng-model="playerDesc"  ng-bind-html="desc"></span>-->
   <!-- TODO: ID soup... :( -->
-  <div id="playerDescDisplay" ng-if="roleShowing">
+  <div id="playerDescDisplay" ng-if="roleShowing || gameHasEnded" ng-class="gameStatus">
     <ul id="playerDescList">
       <li ng-model="playerDesc" ng-repeat="descItem in desc track by $index">{{descItem}}</li>
     </ul>
-    <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">Done Viewing</button>
+    <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">{{doneViewingText}}</button>
   </div>
 
   <div id="thisPresident" ng-bind="thisPresident"></div>
-  <button class="endGame row medium-12"  ng-if="!roleShowing && allScrutiniesUsed">End Game</button>
+  <button class="endGame row medium-12"  ng-if="!roleShowing && allScrutiniesUsed" ng-click="showEndGameDeets()">End Game</button>
 
 
   <script src="roles/roles.js"></script>

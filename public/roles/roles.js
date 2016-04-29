@@ -5,8 +5,9 @@ var ngApp = angular.module('roleApp', []);
 ngApp.controller('roleController', function($scope) {
   //initialization
   $scope.gameHasStarted = false;
+  $scope.gameHasEnded = false;
   $scope.showPlayerButtons = false;
-
+  $scope.gameStatus = "preGameDisplay";
   // pull from local storage if available
   $scope.player = JSON.parse(localStorage.getItem('savedPlayers'));
   
@@ -76,6 +77,7 @@ ngApp.controller('roleController', function($scope) {
     // TODO: Remove this dead code!
     $scope.playerInputHiddenOrShown = [];
     $scope.playerInputHiddenOrShown.push("hide");
+    $scope.doneViewingText = "Done Viewing";
     //assign to each player a random role from the available roles
     //for (var playerNum in $scope.player) {
     //  //if (assignedPlayersRoles[i] === 0 )
@@ -153,19 +155,19 @@ ngApp.controller('roleController', function($scope) {
     // TODO: String should be built in the HTML, not in the JS
     // Use something like {{thisPresident}} is PRESIDENT
     $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
-    console.log("start Game", playerList);
   };
 
   $scope.hideRole = function() {
+    if ($scope.gameHasEnded) {
+      location.reload();
+      return;
+    }
+
     $scope.desc = "";
     $scope.roleShowing = false;
     $scope.showPlayerButtons = true;
 
     // TODO: cleanup all console logs when done (if done)
-    console.log("roles are showing!");
-    console.log($scope.checkedPlayerArray, "checked");
-    console.log($scope.checkedPlayerArray.length, $scope.playerNum);
-
     if ($scope.checkedPlayerArray.length == $scope.playerNum) {
       $scope.allChecked = true;
     }
@@ -175,12 +177,15 @@ ngApp.controller('roleController', function($scope) {
 
     $scope.roleShowing = true;
     $scope.showPlayerButtons = false;
-    console.log("roles are showing!");
 
     var playerObj = $scope.playerObj;
 
+    if ($scope.gameHasEnded) {
+      displayRoles("FASCIST", value, playerObj.fascists.concat(playerObj.hitler));
+      $scope.doneViewingText = "New Game";
+    }
     //show role after game starts
-    if ($scope.gameHasStarted === true) {
+    else if ($scope.gameHasStarted === true) {
       $scope.thisPresident = "";
       if (playerObj.liberals.indexOf(value) > -1) {
         displayRoles("LIBERAL", value)
@@ -190,7 +195,9 @@ ngApp.controller('roleController', function($scope) {
 
       $scope.scrutinizedPlayerArray.push(value);
       $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies;
-      console.log($scope.allScrutiniesUsed);
+       // displayRoles("FASCIST", $scope.playerObj.fascists[0], playerObj.fascists.concat(playerObj.hitler));
+
+      //console.log($scope.allScrutiniesUsed);
       return;
     }
 
@@ -219,7 +226,20 @@ ngApp.controller('roleController', function($scope) {
         }
       }
     }
+
+    $scope.showEndGameDeets = function() {
+      $scope.gameHasEnded = true;
+      $scope.gameStatus = "endGameDisplay";
+      $scope.showRole($scope.playerObj.fascists[0]);
+      //console.log($scope.playerObj);
+      //displayRoles("FASCIST", $scope.playerObj.fascists[0], playerObj.fascists.concat(playerObj.hitler));
+    };
   };
+
+
+
+  ////TODO: testing only
+  //$scope.allScrutiniesUsed = true;
 
 });
 

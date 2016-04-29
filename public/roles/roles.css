@@ -83,8 +83,12 @@ body {
   font-size: 20px;
 }
 
-#playerDescList li:first-child {
+.preGameDisplay li:first-child {
   margin-bottom: 20px;
+}
+
+.endGameDisplay li:last-child {
+  margin-top: 20px;
 }
 
 #doneViewing {
