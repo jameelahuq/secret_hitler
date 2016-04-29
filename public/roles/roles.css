@@ -123,6 +123,11 @@ body {
   text-align: center;
 }
 
+.endGameScreen {
+  height: 100%;
+}
+
 .endGame {
-  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
 }
