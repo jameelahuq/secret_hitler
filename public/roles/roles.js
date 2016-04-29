@@ -9,7 +9,7 @@ ngApp.controller('roleController', function($scope) {
 
   // pull from local storage if available
   $scope.player = JSON.parse(localStorage.getItem('savedPlayers'));
-
+  
   $scope.handlePlayerInputKeydown = function(event) {
     if (event.which === 13) {
       event.preventDefault();
@@ -88,27 +88,32 @@ ngApp.controller('roleController', function($scope) {
     $scope.playerObj = thisGamesAssignment;
     // TODO: remove TODO
     //TODO: make 7 mutable
-    var thisGamesNumbers = new playerNumberObj($scope.playerArray.length);
+    var thisGamesNumbers = new createNewGameNumbers($scope.playerArray.length);
     thisGamesAssignment.assign(thisGamesNumbers);
     $scope.playerNum = thisGamesNumbers.players;
+    $scope.scrutinies = thisGamesNumbers.scrutinies;
   };
 
-  function playerNumberObj(playerNum) {
+  function createNewGameNumbers(playerNum) {
     this.players = playerNum;
     this.hitler = 1;
     // TODO: switch case
     if (playerNum === 7) {
       this.liberals = 4;
       this.fascists = 2;
+      this.scrutinies = 1;
     } else if (playerNum === 8) {
       this.liberals = 5;
       this.fascists = 2;
+      this.scrutinies = 1;
     } else if (playerNum === 9) {
       this.liberals = 5;
       this.fascists = 3;
+      this.scrutinies = 2;
     } else if (playerNum === 10) {
       this.liberals = 6;
       this.fascists = 3;
+      this.scrutinies = 2;
     }
   }
 
@@ -184,6 +189,8 @@ ngApp.controller('roleController', function($scope) {
       }
 
       $scope.scrutinizedPlayerArray.push(value);
+      $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies;
+      console.log($scope.allScrutiniesUsed);
       return;
     }
 
