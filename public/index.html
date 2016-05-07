@@ -6,14 +6,21 @@
   <link rel="stylesheet" href="lib/foundation.min.css">
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/2.13.0/rzslider.min.css"/>
+
   <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>-->
   <script src="lib/angular.js"></script>
+  <script src="lib/rzslider.min.js"></script>
   <link rel="stylesheet" href="roles/roles.css">
   <title>Secret Hitler</title>
 </head>
 
 
 <body ng-app="roleApp" ng-controller="roleController">
+
+<rzslider rz-slider-model="slider.minValue"
+          rz-slider-options="slider.options"></rzslider>
+<div ng-model="stuff" ng-change="flipScreenOnSlide()">Value: {{slider.minValue}}</div>
 
 <!-- TODO: fix all indentation -->
   <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">

@@ -1,8 +1,25 @@
 "use strict";
 
-var ngApp = angular.module('roleApp', []);
+var ngApp = angular.module('roleApp', ['rzModule']);
 
 ngApp.controller('roleController', function($scope) {
+
+  //slider test stuff
+  $scope.slider = {
+    minValue: 0,
+    options: {
+      floor: 0,
+      ceil: 100,
+      step: 1
+    }
+  };
+
+  $scope.$on("slideEnded", function() {
+    if ($scope.slider.minValue >= 80) {
+      console.log("show some shit");
+    }
+  });
+
   //initialization
   $scope.gameHasStarted = false;
   $scope.gameHasEnded = false;

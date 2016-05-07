@@ -7,6 +7,11 @@
 /*float: left;*/
 /*}*/
 
+rzslider {
+  color: red;
+  background: red;
+}
+
 body {
   font-size: 30px;
   background-color: black;
