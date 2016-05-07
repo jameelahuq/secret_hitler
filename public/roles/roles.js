@@ -10,7 +10,7 @@ ngApp.controller('roleController', function($scope) {
   $scope.gameStatus = "preGameDisplay";
   // pull from local storage if available
   $scope.player = JSON.parse(localStorage.getItem('savedPlayers'));
-  
+
   $scope.handlePlayerInputKeydown = function(event) {
     if (event.which === 13) {
       event.preventDefault();
@@ -26,16 +26,16 @@ ngApp.controller('roleController', function($scope) {
   // TODO: Function should just be isStartRead to return a boolean, which the start button uses for ng-disabled
   // Then, CSS style :disabled (or [disabled]? i forget) with gray
   $scope.assignButtonGreyOrGreen = function() {
-      var playerNames = new Array;
-      //var uniquePlayers = false;
-      // TODO: "player" is confusing, need a "players" *array*
-      // Then, you'll just check the length of that array without this processing every time
-      for(var i in $scope.player) {
-        var thisPlayer = $scope.player[i];
-        if (thisPlayer) {
-          playerNames.push(thisPlayer.toUpperCase());
-        }
+    var playerNames = new Array;
+    //var uniquePlayers = false;
+    // TODO: "player" is confusing, need a "players" *array*
+    // Then, you'll just check the length of that array without this processing every time
+    for(var i in $scope.player) {
+      var thisPlayer = $scope.player[i];
+      if (thisPlayer) {
+        playerNames.push(thisPlayer.toUpperCase());
       }
+    }
 
 
     var sortedPlayerArray = playerNames.sort(function (a, b) {
@@ -52,17 +52,17 @@ ngApp.controller('roleController', function($scope) {
           return false;
         }
       }
-       return true;
+      return true;
     }
 
 
-      if (playerNames.length  >= 7 && uniquePlayers()) {
-        $scope.isStartReady = 'green';
-        $scope.enoughPlayers = false;
-      } else {
-        $scope.isStartReady = 'grey';
-        $scope.enoughPlayers = true;
-      }
+    if (playerNames.length  >= 5 && uniquePlayers()) {
+      $scope.isStartReady = 'green';
+      $scope.enoughPlayers = false;
+    } else {
+      $scope.isStartReady = 'grey';
+      $scope.enoughPlayers = true;
+    }
 
     // TODO: This is basically the model you should be using all along
     $scope.playerArray = playerNames;
@@ -100,22 +100,41 @@ ngApp.controller('roleController', function($scope) {
     this.players = playerNum;
     this.hitler = 1;
     // TODO: switch case
-    if (playerNum === 7) {
-      this.liberals = 4;
-      this.fascists = 2;
-      this.scrutinies = 1;
-    } else if (playerNum === 8) {
-      this.liberals = 5;
-      this.fascists = 2;
-      this.scrutinies = 1;
-    } else if (playerNum === 9) {
-      this.liberals = 5;
-      this.fascists = 3;
-      this.scrutinies = 2;
-    } else if (playerNum === 10) {
-      this.liberals = 6;
-      this.fascists = 3;
-      this.scrutinies = 2;
+    switch (playerNum) {
+      case 5 :
+        this.liberals = 3;
+        this.fascists = 2;
+        this.scrutinies = 0;
+        break;
+
+      case 6:
+        this.liberals = 4;
+        this.fascists = 2;
+        this.scrutinies = 0;
+        break;
+
+      case 7 :
+        this.liberals = 4;
+        this.fascists = 2;
+        this.scrutinies = 1;
+        break;
+
+      case 8:
+        this.liberals = 5;
+        this.fascists = 2;
+        this.scrutinies = 1;
+        break;
+
+      case 9:
+        this.liberals = 5;
+        this.fascists = 3;
+        this.scrutinies = 2;
+        break;
+
+      case 10:
+        this.liberals = 6;
+        this.fascists = 3;
+        this.scrutinies = 2;
     }
   }
 
@@ -195,7 +214,7 @@ ngApp.controller('roleController', function($scope) {
 
       $scope.scrutinizedPlayerArray.push(value);
       $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies;
-       // displayRoles("FASCIST", $scope.playerObj.fascists[0], playerObj.fascists.concat(playerObj.hitler));
+      // displayRoles("FASCIST", $scope.playerObj.fascists[0], playerObj.fascists.concat(playerObj.hitler));
 
       //console.log($scope.allScrutiniesUsed);
       return;
@@ -205,25 +224,31 @@ ngApp.controller('roleController', function($scope) {
     if (playerObj.liberals.indexOf(value) > -1) {
       displayRoles("LIBERAL", value)
     } else if (playerObj.fascists.indexOf(value) > -1) {
-      displayRoles("FASCIST", value, playerObj.fascists.concat(playerObj.hitler));
+      displayRoles("FASCIST", value);
     }  if (playerObj.hitler.indexOf(value) > -1) {
-      displayRoles("HITLER", value, playerObj.hitler);
+      displayRoles("HITLER", value);
     }
 
     $scope.checkedPlayerArray.push(value);
 
-    function displayRoles(role, thisPlayer, thosePlayers) {
+    function displayRoles(role, thisPlayer) {
+      console.log("num", playerObj);
       $scope.desc = [];
       $scope.desc.push(thisPlayer + " is " + role);
-      if (thosePlayers) {
-        for (var i = 0; i < thosePlayers.length; i++) {
-          if(i === thosePlayers.length-1 && role === "FASCIST") {
-            role = "HITLER";
-          }
-          if (thisPlayer != thosePlayers[i]) {
-            $scope.desc.push(thosePlayers[i] + " is " + role);
+      var player_i = "";
+      if (role === "FASCIST") {
+        for (var i = 0; i < playerObj.fascists.length; i++) {
+          player_i = playerObj.fascists[i];
+          //if(i === thosePlayers.length-1 && role === "FASCIST") {
+          //  role = "HITLER";
+          //}
+          if (thisPlayer != player_i) {
+            $scope.desc.push(player_i + " is " + role);
           }
         }
+        $scope.desc.push(playerObj.hitler[0] + " is " + "HITLER");
+      } else if (role === "HITLER" && ($scope.playerNum === 6 || $scope.playerNum === 5)) {
+        $scope.desc.push(playerObj.fascists[0] + " is " + "FASCIST");
       }
     }
 
@@ -237,9 +262,23 @@ ngApp.controller('roleController', function($scope) {
   };
 
 
+  function changePic(evt){
+    //bring selected photo in
+    //get files captured through input
+    var fileInput = evt.target.files;
+    if(fileInput.length > 0) {
+      //get the file
+    }
 
-  ////TODO: testing only
-  //$scope.allScrutiniesUsed = true;
+    //window url
+    var windowURL = window.URL || window.webkitURL;
+
+    //picture url
+    var picURL = windowURL.createObjectURL(fileInput[0]);
+
+    console.log(picURL);
+  }
+
 
 });
 
@@ -260,3 +299,7 @@ ngApp.controller('roleController', function($scope) {
 //    assignmentDone.push(randNum);
 //  }
 //}
+
+//kyu ni
+//shupcho
+//
