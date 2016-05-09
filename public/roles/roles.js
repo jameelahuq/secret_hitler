@@ -3,23 +3,22 @@
 var ngApp = angular.module('roleApp', ['rzModule']);
 
 ngApp.controller('roleController', function($scope) {
-
-  //slider test stuff
-  $scope.slider = {
-    minValue: 0,
-    maxValue: 100,
-    options: {
-      floor: 0,
-      ceil: 100,
-      step: 1
-    }
-  };
-
-  $scope.$on("slideEnded", function() {
-    if ($scope.slider.minValue >= 80) {
-      console.log("show some shit");
-    }
-  });
+  //
+  //$scope["Aslider"] = {
+  //  minValue: 0,
+  //  maxValue: 100,
+  //  options: {
+  //    floor: 0,
+  //    ceil: 100,
+  //    step: 1
+  //  }
+  //};
+  //
+  //$scope.$on("slideEnded", function() {
+  //  if ($scope.thisVar.minValue >= 80) {
+  //    console.log("show some shit");
+  //  }
+  //});
 
   //initialization
   $scope.gameHasStarted = false;
@@ -90,9 +89,40 @@ ngApp.controller('roleController', function($scope) {
   // TODO: remove once the models are fixed
   $scope.assignButtonGreyOrGreen();
 
+  $scope.createPlayerSliders = function() {
+    $scope.slider = {};
+    var numPlayers = $scope.playerArray.length;
+    for (var i=0; i < numPlayers; i++) {
+      var thisPlayer = $scope.playerArray[i];
+      console.log($scope.slider);
+      $scope.slider[thisPlayer+'slider'] = {
+        playerName: thisPlayer,
+        minValue: 0,
+        maxValue: 100,
+        options: {
+          floor: 0,
+          ceil: 100,
+          step: 1
+       }
+     };
+
+      $scope.$on("slideEnded", function() {
+        if ($scope[thisPlayer + 'slider'].minValue >= 80) {
+          console.log("show some shit");
+        }
+      });
+
+   }
+
+
+
+
+  }
+
   $scope.assignRoles = function() {
     localStorage.setItem('savedPlayers', JSON.stringify($scope.player));
     $scope.showPlayerButtons = true;
+    $scope.createPlayerSliders();
     // TODO: Remove this dead code!
     $scope.playerInputHiddenOrShown = [];
     $scope.playerInputHiddenOrShown.push("hide");

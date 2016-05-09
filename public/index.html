@@ -17,12 +17,8 @@
 
 
 <body ng-app="roleApp" ng-controller="roleController">
-<div class="slider-container">
-  <rzslider rz-slider-model="slider.minValue"
-            rz-slider-options="slider.options"></rzslider>
-</div>
 
-<div ng-model="stuff" ng-change="flipScreenOnSlide()">Value: {{slider.minValue}}</div>
+<!--<div ng-model="stuff" ng-change="flipScreenOnSlide()">Value: {{slider.minValue}}</div>-->
 
 <!-- TODO: fix all indentation -->
   <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
@@ -54,17 +50,21 @@
       <!-- TODO: remove dead code everywhere -->
       <!--<span ng-class="presidentOrNot" class="president"></span>-->
       <!-- TODO: strings should not be primary keys (DB design 101), have an array of objects instead where each object has a name property  -->
-      <button ng-repeat='playerName in playerArray track by $index' class="row medium-6" ng-disabled="(statsChecked(playerName) && !gameHasStarted ) || scrutinizedPlayerArray.indexOf(playerName) > -1" ng-click="showRole(playerName)" class="playerButton">
-        <span>
+
+
+    <div ng-repeat='player in slider' class="row medium-6" ng-disabled="(statsChecked(playerName) && !gameHasStarted ) || scrutinizedPlayerArray.indexOf(playerName) > -1" ng-click="showRole(playerName)" class="playerButton">
+      <rzslider rz-slider-model="player.minValue"
+                rz-slider-options="player.options"></rzslider>
+      <span>
           <i class="fa fa-eye" ng-show="gameHasStarted" aria-hidden="true"></i>
-          {{playerName}}
+          {{player.playerName}}
         </span>
-      </button>
+      </div>
       <button id="startButton" ng-if="allChecked && !gameHasStarted" ng-click="startGame()" class="row medium-6">Start Game</button>
   </div>
 
   <!--<span ng-model="playerDesc"  ng-bind-html="desc"></span>-->
-  <!-- TODO: ID soup... :( -->
+  <!-- TODO: ID soup... :( -->q
   <div id="playerDescDisplay" ng-if="roleShowing || gameHasEnded" ng-class="gameStatus">
     <ul id="playerDescList">
       <li ng-model="playerDesc" ng-repeat="descItem in desc track by $index">{{descItem}}</li>

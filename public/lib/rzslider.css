@@ -4,11 +4,6 @@
  2016-04-24 */
 
 /* modified by Jameela Huq on 2016-05-08 */
-.slider-container {
-  border: 1px grey solid;
-  height: 40px;
-}
-
 rzslider {
   position: relative;
   display: inline-block;

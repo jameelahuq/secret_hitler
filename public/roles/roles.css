@@ -6,10 +6,24 @@
 /*.wordInputPanel {*/
 /*float: left;*/
 /*}*/
+.slider-container {
+  border: 1px grey solid;
+  height: 40px;
+  position: relative;
+}
 
 rzslider {
   left: 3px;
+  z-index: 4;
 }
+
+.slider-container .playerName {
+  position: relative;
+  z-index: 1;
+  color: red;
+}
+
+
 
 body {
   font-size: 30px;
