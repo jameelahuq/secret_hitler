@@ -7,6 +7,7 @@ ngApp.controller('roleController', function($scope) {
   //slider test stuff
   $scope.slider = {
     minValue: 0,
+    maxValue: 100,
     options: {
       floor: 0,
       ceil: 100,
