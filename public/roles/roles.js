@@ -40,7 +40,6 @@ ngApp.controller('roleController', function($scope, $timeout) {
       }
     }
 
-
     var sortedPlayerArray = $scope.playerArray.sort(function (a, b) {
       if (a > b) return 1;
       if (a < b) return -1;
@@ -57,7 +56,6 @@ ngApp.controller('roleController', function($scope, $timeout) {
       }
       return true;
     }
-
 
     if ($scope.playerArray.length  >= 5 && uniquePlayers()) {
       $scope.isStartReady = 'green';
@@ -134,7 +132,6 @@ ngApp.controller('roleController', function($scope, $timeout) {
 
        // })
       };
-
 
       //$scope.sliders[playerName].role = {
       //  locked: false,
@@ -294,16 +291,16 @@ ngApp.controller('roleController', function($scope, $timeout) {
 
   $scope.createSliders = function() {
     console.log("button go!");
-    Object.keys($scope.thisGamesPlayers).forEach(function(player, i) {
+    Object.keys($scope.thisGamesPlayers).forEach(function (player, i) {
       $scope.playerSliderArray[i] = new Dragdealer(player + 'slider', {
         x: 1,
         steps: 2,
         loose: true,
-        callback: function(x) {
+        callback: function (x) {
           if (!x) {
             this.disable();
             console.log(player);
-            $timeout(function() {
+            $timeout(function () {
               $scope.showPlayerButtons = false;
               $scope.roleShowing = true;
               $scope.showRole(player);
@@ -313,8 +310,8 @@ ngApp.controller('roleController', function($scope, $timeout) {
           }
         }
       });
-      console.log($scope.playerSliderArray);
     });
+  };
 
     //for (var player in $scope.thisGamesPlayers) {
     //  console.log(player);
@@ -340,6 +337,15 @@ ngApp.controller('roleController', function($scope, $timeout) {
     //  console.log(newSlider);
     //}
 
+  $scope.startGame = function() {
+    var playerList = $scope.checkedPlayerArray;
+    var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
+    $scope.scrutinizedPlayerArray = [];
+    $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length === $scope.scrutinies;
+    $scope.gameHasStarted = true;
+    // TODO: String should be built in the HTML, not in the JS
+    // Use something like {{thisPresident}} is PRESIDENT
+    $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
   };
 
   $scope.checkedPlayerArray = [];
