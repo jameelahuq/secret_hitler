@@ -8,6 +8,7 @@ ngApp.controller('roleController', function($scope) {
   $scope.gameHasEnded = false;
   $scope.showPlayerButtons = false;
   $scope.gameStatus = "preGameDisplay";
+  $scope.roleShowing = false;
   // pull from local storage if available
   $scope.player = JSON.parse(localStorage.getItem('savedPlayers'));
 
@@ -170,6 +171,7 @@ ngApp.controller('roleController', function($scope) {
     var playerList = $scope.checkedPlayerArray;
     var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
     $scope.scrutinizedPlayerArray = [];
+    $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length === $scope.scrutinies;
     $scope.gameHasStarted = true;
     // TODO: String should be built in the HTML, not in the JS
     // Use something like {{thisPresident}} is PRESIDENT
@@ -213,7 +215,7 @@ ngApp.controller('roleController', function($scope) {
       }
 
       $scope.scrutinizedPlayerArray.push(value);
-      $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies;
+      $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length === $scope.scrutinies;
       // displayRoles("FASCIST", $scope.playerObj.fascists[0], playerObj.fascists.concat(playerObj.hitler));
 
       //console.log($scope.allScrutiniesUsed);
