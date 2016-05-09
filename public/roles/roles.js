@@ -255,6 +255,9 @@ ngApp.controller('roleController', function($scope) {
     }
 
     $scope.showEndGameDeets = function() {
+      if ($scope.allScrutiniesUsed) {
+        $scope.thisPresident = "";
+      }
       $scope.gameHasEnded = true;
       $scope.gameStatus = "endGameDisplay";
       $scope.showRole($scope.playerObj.fascists[0]);
