@@ -74,20 +74,20 @@ body {
   font-size: 30px;
 }
 
-#playerButtonList.gameHasStarted button {
-  display: block;
-  margin-bottom: 10px;
-  text-align: left;
-}
+/*#playerButtonList.gameHasStarted button {*/
+  /*display: block;*/
+  /*margin-bottom: 10px;*/
+  /*text-align: left;*/
+/*}*/
 
-#playerButtonList.gameHasStarted button span {
-  padding-left: 50%;
-  margin-left: -100px;
-}
+/*#playerButtonList.gameHasStarted button span {*/
+  /*padding-left: 50%;*/
+  /*margin-left: -100px;*/
+/*}*/
 
-#playerButtonList.gameHasStarted button i {
-  margin-right: 25px;
-}
+/*#playerButtonList.gameHasStarted button i {*/
+  /*margin-right: 25px;*/
+/*}*/
 
 #playerDescDisplay {
   height: 100%;

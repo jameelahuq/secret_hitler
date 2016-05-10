@@ -92,32 +92,37 @@ ngApp.controller('roleController', function($scope) {
   $scope.createPlayerSliders = function() {
     $scope.slider = {};
     var numPlayers = $scope.playerArray.length;
+    var sliderEndingCommand = "";
+
     for (var i=0; i < numPlayers; i++) {
       var thisPlayer = $scope.playerArray[i];
       console.log($scope.slider);
+
       $scope.slider[thisPlayer+'slider'] = {
         playerName: thisPlayer,
+        locked: false,
         minValue: 0,
         maxValue: 100,
         options: {
           floor: 0,
           ceil: 100,
           step: 1
-       }
-     };
-
-      $scope.$on("slideEnded", function() {
-        if ($scope[thisPlayer + 'slider'].minValue >= 80) {
-          console.log("show some shit");
         }
-      });
+      };
 
+      var thisSlider = "$scope.slider['" + thisPlayer + "slider']";
+      //sliderEndingCommand += "console.log('" + thisPlayer + "');"
+      if(sliderEndingCommand !== "") {sliderEndingCommand += "else "}
+      sliderEndingCommand += "if("+ thisSlider + ".minValue >= 80 && !" + thisSlider +".locked) {$scope.roleShowing = true;" + thisSlider +".locked = true; $scope.showRole('" + thisPlayer + "'); $scope.$digest()}";
+      //sliderEndingCommand += "if ($scope.slider['" + thisPlayer + "slider'].minValue >= 80) {$scope.showRole('" + thisPlayer + "');}"
    }
 
-
-
-
-  }
+    $scope.$on("slideEnded", function() {
+      $scope.roleShowing = true;
+      $scope.showPlayerButtons = false;
+      eval(sliderEndingCommand);
+    });
+  };
 
   $scope.assignRoles = function() {
     localStorage.setItem('savedPlayers', JSON.stringify($scope.player));
@@ -243,7 +248,6 @@ ngApp.controller('roleController', function($scope) {
   };
 
   $scope.showRole = function(value) {
-
     $scope.roleShowing = true;
     $scope.showPlayerButtons = false;
 
@@ -253,6 +257,7 @@ ngApp.controller('roleController', function($scope) {
       displayRoles("FASCIST", value, playerObj.fascists.concat(playerObj.hitler));
       $scope.doneViewingText = "New Game";
     }
+
     //show role after game starts
     else if ($scope.gameHasStarted === true) {
       $scope.thisPresident = "";
@@ -282,7 +287,7 @@ ngApp.controller('roleController', function($scope) {
     $scope.checkedPlayerArray.push(value);
 
     function displayRoles(role, thisPlayer) {
-      console.log("num", playerObj);
+      console.log("in here", role, thisPlayer);
       $scope.desc = [];
       $scope.desc.push(thisPlayer + " is " + role);
       var player_i = "";
@@ -300,6 +305,8 @@ ngApp.controller('roleController', function($scope) {
       } else if (role === "HITLER" && ($scope.playerNum === 6 || $scope.playerNum === 5)) {
         $scope.desc.push(playerObj.fascists[0] + " is " + "FASCIST");
       }
+
+      console.log($scope.desc);
     }
 
     $scope.showEndGameDeets = function() {
