@@ -3,22 +3,6 @@
 var ngApp = angular.module('roleApp', ['rzModule']);
 
 ngApp.controller('roleController', function($scope) {
-  //
-  //$scope["Aslider"] = {
-  //  minValue: 0,
-  //  maxValue: 100,
-  //  options: {
-  //    floor: 0,
-  //    ceil: 100,
-  //    step: 1
-  //  }
-  //};
-  //
-  //$scope.$on("slideEnded", function() {
-  //  if ($scope.thisVar.minValue >= 80) {
-  //    console.log("show some shit");
-  //  }
-  //});
 
   //initialization
   $scope.gameHasStarted = false;
@@ -92,10 +76,10 @@ ngApp.controller('roleController', function($scope) {
   $scope.createPlayerSliders = function() {
     $scope.sliders = {};
     $scope.playerArray.forEach(function(playerName) {
-      console.log($scope.sliders);
 
       $scope.sliders[playerName] = {
         playerName: playerName,
+        locked: false,
         minValue: 0,
         maxValue: 100,
         options: {
@@ -103,9 +87,15 @@ ngApp.controller('roleController', function($scope) {
           ceil: 100,
           step: 1,
           onEnd: function(id, value) {
-            if (value >= 80) {
+            var thisSlider = $scope.sliders[playerName];
+            if (value >= 80 && !thisSlider.locked) {
+              thisSlider.locked = true;
+              thisSlider.minValue = 100;
+              thisSlider.options.disabled = true;
               $scope.showPlayerButtons = false;
-              $scope.showRole($scope.sliders[playerName].playerName);
+              $scope.showRole(thisSlider.playerName);
+            } else if (!thisSlider.locked) {
+              thisSlider.minValue = 0;
             }
           }
         }

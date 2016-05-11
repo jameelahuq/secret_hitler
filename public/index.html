@@ -52,9 +52,9 @@
       <!-- TODO: strings should not be primary keys (DB design 101), have an array of objects instead where each object has a name property  -->
 
 
-    <div ng-repeat='player in sliders' class="row medium-6" ng-hide="roleShowing">
-      <rzslider rz-slider-model="player.minValue" rz-slider-options="player.options"></rzslider>
-      <span><i class="fa fa-eye" ng-show="gameHasStarted" aria-hidden="true"></i>
+    <div ng-repeat='player in sliders' class="sliderWrapper row medium-6" ng-hide="roleShowing">
+      <rzslider rz-slider-model="player.minValue" rz-slider-options="player.options" ng-disabled="player.locked"></rzslider>
+      <span class="sliderPlayerName"><i class="fa fa-eye" ng-show="gameHasStarted" aria-hidden="true"></i>
         {{player.playerName}}
       </span>
     </div>
