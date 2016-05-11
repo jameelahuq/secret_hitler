@@ -90,37 +90,26 @@ ngApp.controller('roleController', function($scope) {
   $scope.assignButtonGreyOrGreen();
 
   $scope.createPlayerSliders = function() {
-    $scope.slider = {};
-    var numPlayers = $scope.playerArray.length;
-    var sliderEndingCommand = "";
+    $scope.sliders = {};
+    $scope.playerArray.forEach(function(playerName) {
+      console.log($scope.sliders);
 
-    for (var i=0; i < numPlayers; i++) {
-      var thisPlayer = $scope.playerArray[i];
-      console.log($scope.slider);
-
-      $scope.slider[thisPlayer+'slider'] = {
-        playerName: thisPlayer,
-        locked: false,
+      $scope.sliders[playerName] = {
+        playerName: playerName,
         minValue: 0,
         maxValue: 100,
         options: {
           floor: 0,
           ceil: 100,
-          step: 1
+          step: 1,
+          onEnd: function(id, value) {
+            if (value >= 80) {
+              $scope.showPlayerButtons = false;
+              $scope.showRole($scope.sliders[playerName].playerName);
+            }
+          }
         }
       };
-
-      var thisSlider = "$scope.slider['" + thisPlayer + "slider']";
-      //sliderEndingCommand += "console.log('" + thisPlayer + "');"
-      if(sliderEndingCommand !== "") {sliderEndingCommand += "else "}
-      sliderEndingCommand += "if("+ thisSlider + ".minValue >= 80 && !" + thisSlider +".locked) {$scope.roleShowing = true;" + thisSlider +".locked = true; $scope.showRole('" + thisPlayer + "'); $scope.$digest()}";
-      //sliderEndingCommand += "if ($scope.slider['" + thisPlayer + "slider'].minValue >= 80) {$scope.showRole('" + thisPlayer + "');}"
-   }
-
-    $scope.$on("slideEnded", function() {
-      $scope.roleShowing = true;
-      $scope.showPlayerButtons = false;
-      eval(sliderEndingCommand);
     });
   };
 
