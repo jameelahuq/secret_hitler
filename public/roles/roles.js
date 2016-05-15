@@ -1,5 +1,6 @@
 "use strict";
-
+//TODO: clicking where you want slider to go makes it move too
+//only moving slider should cause anything, not clicking the slider box.
 var ngApp = angular.module('roleApp', ['rzModule']);
 
 ngApp.controller('roleController', function($scope) {
@@ -76,9 +77,10 @@ ngApp.controller('roleController', function($scope) {
   $scope.createPlayerSliders = function() {
     $scope.sliders = {};
     $scope.playerArray.forEach(function(playerName) {
+      console.log($scope.sliders);
+      $scope.sliders[playerName] = {playerName: playerName};
 
-      $scope.sliders[playerName] = {
-        playerName: playerName,
+      $scope.sliders[playerName].role = {
         locked: false,
         minValue: 0,
         maxValue: 100,
@@ -88,18 +90,36 @@ ngApp.controller('roleController', function($scope) {
           step: 1,
           onEnd: function(id, value) {
             var thisSlider = $scope.sliders[playerName];
-            if (value >= 80 && !thisSlider.locked) {
-              thisSlider.locked = true;
-              thisSlider.minValue = 100;
-              thisSlider.options.disabled = true;
+            if (value >= 80) {
+              thisSlider.role.locked = true;
+              thisSlider.role.minValue = 100;
+              thisSlider.role.options.disabled = true;
               $scope.showPlayerButtons = false;
               $scope.showRole(thisSlider.playerName);
-            } else if (!thisSlider.locked) {
-              thisSlider.minValue = 0;
+            } else if (!thisSlider.role.locked) {
+              thisSlider.role.minValue = 0;
             }
           }
         }
       };
+
+      $scope.sliders[playerName].scrutiny = {
+        locked: false,
+        minValue: 0,
+        maxValue: 100,
+        options: {
+          floor: 0,
+          ceil: 100,
+          step: 1,
+          onEnd: function(id, value) {
+            if (value === 100) {
+              console.log(value);
+              $scope.showRole($scope.sliders[playerName].playerName);
+            }
+          }
+        }
+      }
+
     });
   };
 
@@ -233,12 +253,13 @@ ngApp.controller('roleController', function($scope) {
     var playerObj = $scope.playerObj;
 
     if ($scope.gameHasEnded) {
-      displayRoles("FASCIST", value, playerObj.fascists.concat(playerObj.hitler));
+      displayRoles("FASCIST", value);
       $scope.doneViewingText = "New Game";
     }
 
     //show role after game starts
-    else if ($scope.gameHasStarted === true) {
+    else if ($scope.gameHasStarted === true ) {
+      console.log("yo");
       $scope.thisPresident = "";
       if (playerObj.liberals.indexOf(value) > -1) {
         displayRoles("LIBERAL", value)
@@ -255,35 +276,60 @@ ngApp.controller('roleController', function($scope) {
     }
 
     //show role before game starts
-    if (playerObj.liberals.indexOf(value) > -1) {
-      displayRoles("LIBERAL", value)
-    } else if (playerObj.fascists.indexOf(value) > -1) {
-      displayRoles("FASCIST", value);
-    }  if (playerObj.hitler.indexOf(value) > -1) {
-      displayRoles("HITLER", value);
+    else {
+      if (playerObj.liberals.indexOf(value) > -1) {
+        displayRoles("LIBERAL", value)
+      } else if (playerObj.fascists.indexOf(value) > -1) {
+        displayRoles("FASCIST", value);
+      } if (playerObj.hitler.indexOf(value) > -1) {
+        displayRoles("HITLER", value);
+      }
     }
 
     $scope.checkedPlayerArray.push(value);
 
+    //this should have an object passed into it, parsed to include only wanted players
+    //rather than an array passed in
     function displayRoles(role, thisPlayer) {
-      console.log("in here", role, thisPlayer);
+      //console.log("in here", role, thisPlayer);
+
+      //if liberal, show just one liberal
+      //else if pregame
+      // if fascists show fascist, then show hitler
+      //  else if hitler and more than 6, show only hitler
+      //////else show fascists
+      //else if ingame
+      ////if fascists, show only that fascist
+      ////if hitler, show as fascist
+      //else if postgame
+      ////show fascists, then hitler
+
       $scope.desc = [];
       $scope.desc.push(thisPlayer + " is " + role);
       var player_i = "";
-      if (role === "FASCIST") {
-        for (var i = 0; i < playerObj.fascists.length; i++) {
-          player_i = playerObj.fascists[i];
-          //if(i === thosePlayers.length-1 && role === "FASCIST") {
-          //  role = "HITLER";
-          //}
-          if (thisPlayer != player_i) {
-            $scope.desc.push(player_i + " is " + role);
+
+      if ($scope.gameHasEnded || !$scope.gameHasStarted) {
+        console.log(role);
+        if (role === "FASCIST") {
+          var fascists = playerObj.fascists;
+          for (var i = 0; i < fascists.length; i++) {
+            player_i = fascists[i];
+
+            if (thisPlayer != player_i) {
+              $scope.desc.push(player_i + " is " + "FASCIST");
+            }
           }
+
+          $scope.desc.push(playerObj.hitler[0] + " is " + "HITLER");
         }
-        $scope.desc.push(playerObj.hitler[0] + " is " + "HITLER");
-      } else if (role === "HITLER" && ($scope.playerNum === 6 || $scope.playerNum === 5)) {
-        $scope.desc.push(playerObj.fascists[0] + " is " + "FASCIST");
+
+        if (role === "HITLER" && $scope.playerNum < 7) {
+          $scope.desc.push(playerObj.fascists[0] + " is " + "FASCIST")
+        }
+      } else if ($scope.gameHasStarted && role === "HITLER") {
+        $scope.desc.push(thisPlayer +  " is " + "FASCIST")
       }
+
 
       console.log($scope.desc);
     }
@@ -299,6 +345,17 @@ ngApp.controller('roleController', function($scope) {
       //displayRoles("FASCIST", $scope.playerObj.fascists[0], playerObj.fascists.concat(playerObj.hitler));
     };
   };
+
+  $scope.startGame = function() {
+    var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
+    $scope.scrutinizedPlayerArray = [];
+    $scope.gameHasStarted = true;
+
+    // TODO: String should be built in the HTML, not in the JS
+    // Use something like {{thisPresident}} is PRESIDENT
+    $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
+  };
+
 
 
   function changePic(evt){

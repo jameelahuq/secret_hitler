@@ -53,7 +53,8 @@
 
 
     <div ng-repeat='player in sliders' class="sliderWrapper row medium-6" ng-hide="roleShowing">
-      <rzslider rz-slider-model="player.minValue" rz-slider-options="player.options" ng-disabled="player.locked"></rzslider>
+      <rzslider rz-slider-model="player.role.minValue" rz-slider-options="player.role.options" ng-disabled="player.role.locked"></rzslider>
+      <rzslider ng-if="gameHasStarted" rz-slider-model=player.scrutiny.minValue rz-slider-options="player.scrutiny.options"></rzslider>
       <span class="sliderPlayerName"><i class="fa fa-eye" ng-show="gameHasStarted" aria-hidden="true"></i>
         {{player.playerName}}
       </span>
