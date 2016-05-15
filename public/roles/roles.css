@@ -73,6 +73,12 @@ body {
   margin-bottom: 5px;
 }
 
+.scrutinySlider {
+  position: absolute;
+  top: 26px;
+  left: 4px;
+}
+
 .sliderPlayerName {
   position: absolute;
   top: -2px;

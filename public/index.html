@@ -9,7 +9,9 @@
   <link rel="stylesheet" type="text/css" href="lib/rzslider.css"/>
 
   <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>-->
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-touch.js"></script>-->
   <script src="lib/angular.js"></script>
+  <script src="lib/angular-touch.js"></script>
   <script src="lib/rzslider.min.js"></script>
   <link rel="stylesheet" href="roles/roles.css">
   <title>Secret Hitler</title>
@@ -19,8 +21,16 @@
 <body ng-app="roleApp" ng-controller="roleController">
 
 <!--<div ng-model="stuff" ng-change="flipScreenOnSlide()">Value: {{slider.minValue}}</div>-->
-{{testingShit}}
+{{somethingWentWrongSorry}}
 <!-- TODO: fix all indentation -->
+<div ng-show="!showActions" ng-swipe-left="showActions = true">
+  Some list content, like an email in the inbox
+</div>
+<div ng-show="showActions" ng-swipe-right="showActions = false">
+  <button ng-click="reply()">Reply</button>
+  <button ng-click="delete()">Delete</button>
+</div>
+
   <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
 
     <!-- TODO: use array and ng-repeat -->
@@ -53,8 +63,8 @@
 
 
     <div ng-repeat='player in sliders' class="sliderWrapper row medium-6" ng-hide="roleShowing">
-      <rzslider rz-slider-model="player.role.minValue" rz-slider-options="player.role.options" ng-disabled="player.role.locked"></rzslider>
-      <rzslider ng-if="gameHasStarted" rz-slider-model=player.scrutiny.minValue rz-slider-options="player.scrutiny.options"></rzslider>
+      <rzslider class="roleSlider" rz-slider-model="player.role.minValue" rz-slider-options="player.role.options" ng-disabled="player.role.locked"></rzslider>
+      <rzslider class="scrutinySlider" ng-if="gameHasStarted" rz-slider-model=player.scrutiny.minValue rz-slider-options="player.scrutiny.options"></rzslider>
       <span class="sliderPlayerName"><i class="fa fa-eye" ng-show="gameHasStarted" aria-hidden="true"></i>
         {{player.playerName}}
       </span>
@@ -76,5 +86,6 @@
     <button class="endGame row medium-12"  ng-if="!roleShowing && allScrutiniesUsed" ng-click="showEndGameDeets()">End Game</button>
   </div>
   <script src="roles/roles.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 </body>
 </html>

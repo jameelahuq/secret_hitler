@@ -1,7 +1,7 @@
 "use strict";
 //TODO: clicking where you want slider to go makes it move too
 //only moving slider should cause anything, not clicking the slider box.
-var ngApp = angular.module('roleApp', ['rzModule']);
+var ngApp = angular.module('roleApp', ['rzModule', 'ngTouch']);
 
 ngApp.controller('roleController', function($scope) {
 
@@ -87,7 +87,7 @@ ngApp.controller('roleController', function($scope) {
         options: {
           floor: 0,
           ceil: 100,
-          step: 1,
+          draggableRange: true,
           onEnd: function(id, value) {
             var thisSlider = $scope.sliders[playerName];
             if (value >= 80) {
@@ -110,7 +110,7 @@ ngApp.controller('roleController', function($scope) {
         options: {
           floor: 0,
           ceil: 100,
-          step: 1,
+          draggableRange: true,
           onEnd: function(id, value) {
             if (value === 100) {
               console.log(value);
