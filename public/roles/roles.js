@@ -21,6 +21,17 @@ ngApp.controller('roleController', function($scope) {
     }
   };
 
+  new Dragdealer('slide-to-unlock-old', {
+    steps: 2,
+    callback: function(x, y) {
+      // Only 0 and 1 are the possible values because of "steps: 2"
+      if (x) {
+        this.disable();
+        $('#slide-to-unlock-old').fadeOut();
+      }
+    }
+  });
+
   // TODO: Instead of using a separate checkedPlayerArray, let the player object have a "checked" property
   $scope.statsChecked = function(value) {
     return $scope.checkedPlayerArray.indexOf(value) > -1;
