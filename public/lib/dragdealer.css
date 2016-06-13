@@ -1,0 +1,64 @@
+/**
+ * Dragdealer JS v0.9.5
+ * http://code.ovidiu.ch/dragdealer-js
+ *
+ * Copyright (c) 2010, Ovidiu Chereches
+ * MIT License
+ * http://legal.ovidiu.ch/licenses/MIT
+ */
+
+.demo .dragdealer {
+  background: #e1e1e1;
+  height: 40px;
+  border-radius: 3px;
+}
+
+/* Slide to unlock */
+.slide-to-unlock {
+  position: relative;
+  width: 400px;
+  height: 80px;
+}
+.slide-to-unlock .dragdealer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  background: none;
+  height: auto;
+}
+.slide-to-unlock .handle {
+  height: 100%;
+  border-radius: 0;
+}
+.slide-to-unlock .disabled {
+  background: none;
+}
+.slide-to-unlock .slide-text {
+  position: absolute;
+  top: 0;
+  height: 80px;
+  font-size: 30px;
+  line-height: 80px;
+  text-align: center;
+}
+
+/* Slide to unlock new */
+.new-slider {
+  background: #333344;
+  cursor: pointer;
+
+}
+.new-slider .dragdealer {
+  overflow: hidden;
+}
+.new-slider .handle {
+  width: 200%;
+}
+.new-slider .slide-text {
+  left: 50%;
+  width: 50%;
+  color: #9999aa;
+}

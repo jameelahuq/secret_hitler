@@ -21,16 +21,20 @@ ngApp.controller('roleController', function($scope) {
     }
   };
 
-  new Dragdealer('slide-to-unlock-old', {
+  var slideToUnlockNew = new Dragdealer('test-slider', {
+    x: 1,
     steps: 2,
-    callback: function(x, y) {
+    loose: true,
+    callback: function(x) {
       // Only 0 and 1 are the possible values because of "steps: 2"
-      if (x) {
+      if (!x) {
         this.disable();
-        $('#slide-to-unlock-old').fadeOut();
       }
     }
   });
+
+  console.log(slideToUnlockNew);
+
 
   // TODO: Instead of using a separate checkedPlayerArray, let the player object have a "checked" property
   $scope.statsChecked = function(value) {
@@ -40,19 +44,19 @@ ngApp.controller('roleController', function($scope) {
   // TODO: Function should just be isStartRead to return a boolean, which the start button uses for ng-disabled
   // Then, CSS style :disabled (or [disabled]? i forget) with gray
   $scope.assignButtonGreyOrGreen = function() {
-    var playerNames = new Array;
+    $scope.playerArray = [];
     //var uniquePlayers = false;
     // TODO: "player" is confusing, need a "players" *array*
     // Then, you'll just check the length of that array without this processing every time
     for(var i in $scope.player) {
       var thisPlayer = $scope.player[i];
       if (thisPlayer) {
-        playerNames.push(thisPlayer.toUpperCase());
+        $scope.playerArray.push(thisPlayer.toUpperCase());
       }
     }
 
 
-    var sortedPlayerArray = playerNames.sort(function (a, b) {
+    var sortedPlayerArray = $scope.playerArray.sort(function (a, b) {
       if (a > b) return 1;
       if (a < b) return -1;
       return 0;
@@ -70,7 +74,7 @@ ngApp.controller('roleController', function($scope) {
     }
 
 
-    if (playerNames.length  >= 5 && uniquePlayers()) {
+    if ($scope.playerArray.length  >= 5 && uniquePlayers()) {
       $scope.isStartReady = 'green';
       $scope.enoughPlayers = false;
     } else {
@@ -78,66 +82,140 @@ ngApp.controller('roleController', function($scope) {
       $scope.enoughPlayers = true;
     }
 
-    // TODO: This is basically the model you should be using all along
-    $scope.playerArray = playerNames;
   };
 
   // TODO: remove once the models are fixed
   $scope.assignButtonGreyOrGreen();
 
   $scope.createPlayerSliders = function() {
-    $scope.sliders = {};
-    $scope.playerArray.forEach(function(playerName) {
-      console.log($scope.sliders);
-      $scope.sliders[playerName] = {playerName: playerName};
+   // $scope.playerArray.forEach(function(playerName) {
+      //console.log($scope.sliders);
+     // $scope.sliders[playerName] = {playerName: playerName};
 
-      $scope.sliders[playerName].role = {
-        locked: false,
-        minValue: 0,
-        maxValue: 100,
-        options: {
-          floor: 0,
-          ceil: 100,
-          draggableRange: true,
-          onEnd: function(id, value) {
-            var thisSlider = $scope.sliders[playerName];
-            if (value >= 80) {
-              thisSlider.role.locked = true;
-              thisSlider.role.minValue = 100;
-              thisSlider.role.options.disabled = true;
-              $scope.showPlayerButtons = false;
-              $scope.showRole(thisSlider.playerName);
-            } else if (!thisSlider.role.locked) {
-              thisSlider.role.minValue = 0;
-            }
+
+
+      var newSlider = new Dragdealer('JAMEELAslider', {
+        x: 1,
+        steps: 2,
+        loose: true,
+        callback: function(x) {
+          console.log("callback?");
+          // Only 0 and 1 are the possible values because of "steps: 2"
+          if (!x) {
+            this.disable();
+            console.log("turned!");
           }
         }
+      });
+
+      console.log(newSlider);
+
+
+          //var nameOfSlider = new Dragdealer(playerName + 'slider', {
+          //  x: 1,
+          //  steps: 2,
+          //  loose: true,
+          //  callback: function(x) {
+          //    // Only 0 and 1 are the possible values because of "steps: 2"
+          //    if (!x) {
+          //      this.disable();
+          //      console.log("turned!");
+          //    }
+          //  }
+          //});
+
+          //$scope.sliders[playerName].role = new Dragdealer(playerName + "slider", {
+          //  x: 1,
+          //  steps: 2,
+          //  loose: true,
+          //  locked: false,
+          //  callback: function (x) {
+          //    // Only 0 and 1 are the possible values because of "steps: 2"
+          //    if (!x) {
+          //      console.log(playerName);
+          //      //this.disable();
+          //      //var thisSlider = $scope.sliders[playerName];
+          //      //if (value >= 80) {
+          //      //  thisSlider.role.locked = true;
+          //      //  thisSlider.role.minValue = 100;
+          //      //  thisSlider.role.options.disabled = true;
+          //      //  $scope.showPlayerButtons = false;
+          //      //  $scope.showRole(thisSlider.playerName);
+          //      //} else if (!thisSlider.role.locked) {
+          //      //  thisSlider.role.minValue = 0;
+          //      //}
+          //    }
+          //  }
+          //});
+
+          //$scope.sliders[playerName].scrutiny = new Dragdealer(playerName + "slider",  {
+          //  x: 1,
+          //  steps: 2,
+          //  loose: true,
+          //  locked: false,
+          //  callback: function (x) {
+          //    // Only 0 and 1 are the possible values because of "steps: 2"
+          //    if (!x) {
+          //      this.disable();
+          //      if (value === 100) {
+          //        console.log(value);
+          //        $scope.showRole($scope.sliders[playerName].playerName);
+          //      }
+          //    }
+          //  }
+          //})
+
+       // })
       };
 
-      $scope.sliders[playerName].scrutiny = {
-        locked: false,
-        minValue: 0,
-        maxValue: 100,
-        options: {
-          floor: 0,
-          ceil: 100,
-          draggableRange: true,
-          onEnd: function(id, value) {
-            if (value === 100) {
-              console.log(value);
-              $scope.showRole($scope.sliders[playerName].playerName);
-            }
-          }
-        }
-      }
 
-    });
-  };
+      //$scope.sliders[playerName].role = {
+      //  locked: false,
+      //  minValue: 0,
+      //  maxValue: 100,
+      //  options: {
+      //    floor: 0,
+      //    ceil: 100,
+      //    draggableRange: true,
+      //    onEnd: function(id, value) {
+      //      var thisSlider = $scope.sliders[playerName];
+      //      if (value >= 80) {
+      //        thisSlider.role.locked = true;
+      //        thisSlider.role.minValue = 100;
+      //        thisSlider.role.options.disabled = true;
+      //        $scope.showPlayerButtons = false;
+      //        $scope.showRole(thisSlider.playerName);
+      //      } else if (!thisSlider.role.locked) {
+      //        thisSlider.role.minValue = 0;
+      //      }
+      //    }
+      //  }
+      //};
+      //
+      //$scope.sliders[playerName].scrutiny = {
+      //  locked: false,
+      //  minValue: 0,
+      //  maxValue: 100,
+      //  options: {
+      //    floor: 0,
+      //    ceil: 100,
+      //    draggableRange: true,
+      //    onEnd: function(id, value) {
+      //      if (value === 100) {
+      //        console.log(value);
+      //        $scope.showRole($scope.sliders[playerName].playerName);
+      //      }
+      //    }
+      //  }
+      //}
+
+  //  });
+  //};
 
   $scope.assignRoles = function() {
     localStorage.setItem('savedPlayers', JSON.stringify($scope.player));
     $scope.showPlayerButtons = true;
-    $scope.createPlayerSliders();
+
     // TODO: Remove this dead code!
     $scope.playerInputHiddenOrShown = [];
     $scope.playerInputHiddenOrShown.push("hide");
@@ -150,6 +228,7 @@ ngApp.controller('roleController', function($scope) {
 
     // TODO: by convention, classes are ALWAYS capitalized
     // TODO: code review the assignment phase
+    $scope.thisGamesPlayers = new PlayerNamesAndRoles($scope.playerArray);
     var thisGamesAssignment =  new playerAssignment($scope.playerArray);
     $scope.playerObj = thisGamesAssignment;
     // TODO: remove TODO
@@ -202,6 +281,21 @@ ngApp.controller('roleController', function($scope) {
     }
   }
 
+  function PlayerNamesAndRoles(playerArray) {
+
+    function player(playerName) {
+      this.playerName = playerName;
+      this.roleShown = false;
+      //todo: put the players role in here too
+    }
+
+    for (var i = 0; i < playerArray.length; i++) {
+      var playerName = playerArray[i];
+      this[playerName] = new player(playerName);
+    }
+
+  }
+
   function playerAssignment(playerArray) {
     this.liberals = [];
     this.fascists = [];
@@ -227,6 +321,35 @@ ngApp.controller('roleController', function($scope) {
       }
     };
   }
+
+  $scope.createSliders = function() {
+    console.log("button go!");
+
+    for (var player in $scope.thisGamesPlayers) {
+      console.log(player);
+      var newSlider = new Dragdealer(player + 'slider', {
+        x: 1,
+        steps: 2,
+        loose: true,
+        callback: function (x) {
+          console.log("callback?");
+          // Only 0 and 1 are the possible values because of "steps: 2"
+          if (!x) {
+            console.log("actually did stuff");
+            this.disable();
+            if (!$scope.player.roleShown) {
+              $scope.showPlayerButtons = false;
+              $scope.roleShowing = true;
+              $scope.showRole($scope.player.playerName);
+              $scope.player.roleShown = true;
+            }
+          }
+        }
+      });
+      console.log(newSlider);
+    }
+
+  };
 
   $scope.checkedPlayerArray = [];
 
@@ -369,7 +492,7 @@ ngApp.controller('roleController', function($scope) {
 
 
 
-  function changePic(evt){
+  function changePic(evt) {
     //bring selected photo in
     //get files captured through input
     var fileInput = evt.target.files;
@@ -386,7 +509,19 @@ ngApp.controller('roleController', function($scope) {
     console.log(picURL);
   }
 
+});
 
+
+
+ngApp.directive('ngRoleSlider', function($rootScope, $timeout) {
+
+    return function($scope, element) {
+      console.log(element);
+      if ($scope.$last){
+        //possibly equivalent to digest?
+        $timeout($scope.createSliders);
+      }
+    };
 });
 
 //assign all the numbers to a color

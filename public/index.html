@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="lib/rzslider.css"/>
+  <link  href="lib/dragdealer.css" rel="stylesheet" type="text/css">
+
 
   <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>-->
   <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-touch.js"></script>-->
@@ -14,6 +16,7 @@
   <script src="lib/angular-touch.js"></script>
   <script src="lib/rzslider.min.js"></script>
   <script src="lib/dragdealer.min.js"></script>
+
   <link rel="stylesheet" href="roles/roles.css">
   <title>Secret Hitler</title>
 </head>
@@ -24,13 +27,15 @@
 <!--<div ng-model="stuff" ng-change="flipScreenOnSlide()">Value: {{slider.minValue}}</div>-->
 {{somethingWentWrongSorry}}
 <!-- TODO: fix all indentation -->
-<div ng-show="!showActions" ng-swipe-left="showActions = true">
-  Some list content, like an email in the inbox
-</div>
-<div ng-show="showActions" ng-swipe-right="showActions = false">
-  <button ng-click="reply()">Reply</button>
-  <button ng-click="delete()">Delete</button>
-</div>
+
+<!--<div class="slide-to-unlock new-slider">-->
+  <!--<div id="JAMEELAslider" class="dragdealer" style="display: block;">-->
+    <!--<div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateX(-400px);">-->
+      <!--<div class="slide-text"><i class="fa fa-angle-right"></i> JAMEELA </div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
 
   <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
 
@@ -58,26 +63,27 @@
 <!-- TODO: if it's a list, you probably want <ul class="playerRoleButtons"> and <li> wrapped buttons inside -->
 <!-- TODO: choose ng-if if it makes more sense -->
 
-<div id="playerButtonList" ng-show="showPlayerButtons" ng-if="!allScrutiniesUsed">
+<div id="playerButtonList" ng-show="showPlayerButtons && !allScrutiniesUsed" >
       <!-- TODO: remove dead code everywhere -->
       <!-- TODO: strings should not be primary keys (DB design 101), have an array of objects instead where each object has a name property  -->
 
-
-    <div ng-repeat='player in sliders' class="sliderWrapper row medium-6" ng-hide="roleShowing">
-      <rzslider class="roleSlider" rz-slider-model="player.role.minValue" rz-slider-options="player.role.options" ng-disabled="player.role.locked"></rzslider>
-      <rzslider class="scrutinySlider" ng-if="gameHasStarted" rz-slider-model=player.scrutiny.minValue rz-slider-options="player.scrutiny.options"></rzslider>
-      <span class="sliderPlayerName"><i class="fa fa-eye" ng-show="gameHasStarted" aria-hidden="true"></i>
-        {{player.playerName}}
-      </span>
+  <div ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing">
+    <div class="slide-to-unlock new-slider" >
+      <div id="{{player.playerName}}slider" class="dragdealer" style="display: block;">
+        <div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateX(-400px);">
+          <div class="slide-text" ng-role-slider><i class="fa fa-angle-right"></i>{{player.playerName}}</div>
+        </div>
+      </div>
     </div>
+  </div>
+
   <button id="startButton" ng-if="allChecked && !gameHasStarted" ng-click="startGame()" class="row medium-6">Start Game</button>
   </div>
 
-  <!--<span ng-model="playerDesc"  ng-bind-html="desc"></span>-->
   <!-- TODO: ID soup... :( -->
   <div id="playerDescDisplay" ng-if="roleShowing || gameHasEnded" ng-class="gameStatus">
     <ul id="playerDescList">
-      <li ng-model="playerDesc" ng-repeat="descItem in desc track by $index">{{descItem}}</li>
+      <li ng-repeat="descItem in desc track by $index">{{descItem}}</li>
     </ul>
     <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">{{doneViewingText}}</button>
   </div>
