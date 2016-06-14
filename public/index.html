@@ -69,9 +69,9 @@
 
   <div ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing">
     <div class="slide-to-unlock new-slider" >
-      <div id="{{player.playerName}}slider" class="dragdealer" style="display: block;">
+      <div id="{{player.playerName}}slider" class="dragdealer" style="display: block;"  >
         <div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateX(-400px);">
-          <div class="slide-text" ng-role-slider><i class="fa fa-angle-right"></i>{{player.playerName}}</div>
+          <div class="slide-text" ><i class="fa fa-angle-right" ng-role-slider></i>{{player.playerName}}</div>
         </div>
       </div>
     </div>

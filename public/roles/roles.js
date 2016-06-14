@@ -3,7 +3,7 @@
 //only moving slider should cause anything, not clicking the slider box.
 var ngApp = angular.module('roleApp', ['rzModule', 'ngTouch']);
 
-ngApp.controller('roleController', function($scope) {
+ngApp.controller('roleController', function($scope, $timeout) {
 
   //initialization
   $scope.gameHasStarted = false;
@@ -20,21 +20,6 @@ ngApp.controller('roleController', function($scope) {
       event.target.nextElementSibling.focus();
     }
   };
-
-  var slideToUnlockNew = new Dragdealer('test-slider', {
-    x: 1,
-    steps: 2,
-    loose: true,
-    callback: function(x) {
-      // Only 0 and 1 are the possible values because of "steps: 2"
-      if (!x) {
-        this.disable();
-      }
-    }
-  });
-
-  console.log(slideToUnlockNew);
-
 
   // TODO: Instead of using a separate checkedPlayerArray, let the player object have a "checked" property
   $scope.statsChecked = function(value) {
@@ -91,24 +76,6 @@ ngApp.controller('roleController', function($scope) {
    // $scope.playerArray.forEach(function(playerName) {
       //console.log($scope.sliders);
      // $scope.sliders[playerName] = {playerName: playerName};
-
-
-
-      var newSlider = new Dragdealer('JAMEELAslider', {
-        x: 1,
-        steps: 2,
-        loose: true,
-        callback: function(x) {
-          console.log("callback?");
-          // Only 0 and 1 are the possible values because of "steps: 2"
-          if (!x) {
-            this.disable();
-            console.log("turned!");
-          }
-        }
-      });
-
-      console.log(newSlider);
 
 
           //var nameOfSlider = new Dragdealer(playerName + 'slider', {
@@ -324,30 +291,53 @@ ngApp.controller('roleController', function($scope) {
 
   $scope.createSliders = function() {
     console.log("button go!");
-
-    for (var player in $scope.thisGamesPlayers) {
-      console.log(player);
+    Object.keys($scope.thisGamesPlayers).forEach(function(player) {
       var newSlider = new Dragdealer(player + 'slider', {
         x: 1,
         steps: 2,
         loose: true,
-        callback: function (x) {
-          console.log("callback?");
-          // Only 0 and 1 are the possible values because of "steps: 2"
+        callback: function(x) {
           if (!x) {
-            console.log("actually did stuff");
             this.disable();
-            if (!$scope.player.roleShown) {
-              $scope.showPlayerButtons = false;
-              $scope.roleShowing = true;
-              $scope.showRole($scope.player.playerName);
-              $scope.player.roleShown = true;
+            if (!$scope.thisGamesPlayers[player].roleShowing) {
+              console.log(player);
+              $scope.$apply(function() {
+                $scope.showPlayerButtons = false;
+                $scope.roleShowing = true;
+                $scope.showRole(player);
+                $scope.thisGamesPlayers[player].roleShown = true;
+                console.log(player);
+              });
             }
           }
         }
       });
       console.log(newSlider);
-    }
+    });
+
+    //for (var player in $scope.thisGamesPlayers) {
+    //  console.log(player);
+    //  var newSlider = new Dragdealer(player + 'slider', {
+    //    x: 1,
+    //    steps: 2,
+    //    loose: true,
+    //    callback: function (x) {
+    //      if (!x) {
+    //        this.disable();
+    //        if (!$scope.thisGamesPlayers[player].roleShowing) {
+    //          $timeout(function () {
+    //            $scope.showPlayerButtons = false;
+    //            $scope.roleShowing = true;
+    //            $scope.showRole(player);
+    //            $scope.thisGamesPlayers[player].roleShown = true;
+    //            console.log(player);
+    //          })
+    //        }
+    //      }
+    //    }
+    //  });
+    //  console.log(newSlider);
+    //}
 
   };
 
@@ -402,10 +392,7 @@ ngApp.controller('roleController', function($scope) {
       }
 
       $scope.scrutinizedPlayerArray.push(value);
-      $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length === $scope.scrutinies;
-      // displayRoles("FASCIST", $scope.playerObj.fascists[0], playerObj.fascists.concat(playerObj.hitler));
-
-      //console.log($scope.allScrutiniesUsed);
+      $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies;
       return;
     }
 
@@ -425,18 +412,6 @@ ngApp.controller('roleController', function($scope) {
     //this should have an object passed into it, parsed to include only wanted players
     //rather than an array passed in
     function displayRoles(role, thisPlayer) {
-      //console.log("in here", role, thisPlayer);
-
-      //if liberal, show just one liberal
-      //else if pregame
-      // if fascists show fascist, then show hitler
-      //  else if hitler and more than 6, show only hitler
-      //////else show fascists
-      //else if ingame
-      ////if fascists, show only that fascist
-      ////if hitler, show as fascist
-      //else if postgame
-      ////show fascists, then hitler
 
       $scope.desc = [];
       $scope.desc.push(thisPlayer + " is " + role);
@@ -453,17 +428,16 @@ ngApp.controller('roleController', function($scope) {
               $scope.desc.push(player_i + " is " + "FASCIST");
             }
           }
-
           $scope.desc.push(playerObj.hitler[0] + " is " + "HITLER");
         }
 
         if (role === "HITLER" && $scope.playerNum < 7) {
           $scope.desc.push(playerObj.fascists[0] + " is " + "FASCIST")
         }
+
       } else if ($scope.gameHasStarted && role === "HITLER") {
         $scope.desc.push(thisPlayer +  " is " + "FASCIST")
       }
-
 
       console.log($scope.desc);
     }
@@ -489,8 +463,6 @@ ngApp.controller('roleController', function($scope) {
     // Use something like {{thisPresident}} is PRESIDENT
     $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
   };
-
-
 
   function changePic(evt) {
     //bring selected photo in
@@ -522,6 +494,27 @@ ngApp.directive('ngRoleSlider', function($rootScope, $timeout) {
         $timeout($scope.createSliders);
       }
     };
+
+
+  //return {
+  //  controller: function($scope, element) {
+  //    var thisPlayer = $scope.player;
+  //    console.log(element);
+  //    var newSlider = new Dragdealer(thisPlayer.playerName + 'slider', {
+  //      x: 1,
+  //      steps: 2,
+  //      loose: true,
+  //      callback: function (x) {
+  //        console.log("fdkhj");
+  //        if (!x) {
+  //          this.disable();
+  //          console.log(thisPlayer)
+  //        }
+  //      }
+  //    });
+  //    console.log(newSlider);
+  //  }
+  //}
 });
 
 //assign all the numbers to a color

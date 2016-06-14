@@ -47,9 +47,9 @@
 
 /* Slide to unlock new */
 .new-slider {
-  background: #333344;
+  background: black;
   cursor: pointer;
-
+  border-radius: 100%
 }
 .new-slider .dragdealer {
   overflow: hidden;
