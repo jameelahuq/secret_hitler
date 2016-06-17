@@ -253,6 +253,7 @@ ngApp.controller('roleController', function($scope, $timeout) {
     function player(playerName) {
       this.playerName = playerName;
       this.roleShown = false;
+      this.scrutinized = false;
       //todo: put the players role in here too
     }
 
@@ -289,30 +290,30 @@ ngApp.controller('roleController', function($scope, $timeout) {
     };
   }
 
+  $scope.playerSliderArray = [];
+
   $scope.createSliders = function() {
     console.log("button go!");
-    Object.keys($scope.thisGamesPlayers).forEach(function(player) {
-      var newSlider = new Dragdealer(player + 'slider', {
+    Object.keys($scope.thisGamesPlayers).forEach(function(player, i) {
+      $scope.playerSliderArray[i] = new Dragdealer(player + 'slider', {
         x: 1,
         steps: 2,
         loose: true,
         callback: function(x) {
           if (!x) {
             this.disable();
-            if (!$scope.thisGamesPlayers[player].roleShowing) {
+            console.log(player);
+            $timeout(function() {
+              $scope.showPlayerButtons = false;
+              $scope.roleShowing = true;
+              $scope.showRole(player);
+              $scope.thisGamesPlayers[player].roleShown = true;
               console.log(player);
-              $scope.$apply(function() {
-                $scope.showPlayerButtons = false;
-                $scope.roleShowing = true;
-                $scope.showRole(player);
-                $scope.thisGamesPlayers[player].roleShown = true;
-                console.log(player);
-              });
-            }
+            })
           }
         }
       });
-      console.log(newSlider);
+      console.log($scope.playerSliderArray);
     });
 
     //for (var player in $scope.thisGamesPlayers) {
@@ -458,7 +459,11 @@ ngApp.controller('roleController', function($scope, $timeout) {
     var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
     $scope.scrutinizedPlayerArray = [];
     $scope.gameHasStarted = true;
-
+    $scope.playerSliderArray.forEach(function(slider) {
+      slider.enable();
+      slider.setValue(1);
+      //slider.css("transform" = "translateX(0px)") = 0;
+    });
     // TODO: String should be built in the HTML, not in the JS
     // Use something like {{thisPresident}} is PRESIDENT
     $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";

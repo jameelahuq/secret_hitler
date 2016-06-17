@@ -66,6 +66,10 @@ body {
   background-color: grey;
 }
 
+#playerButtonList {
+  text-align: center;
+}
+
 .sliderWrapper {
   position: relative;
   border: solid grey 2px;
@@ -134,7 +138,7 @@ body {
 }
 
 #startButton {
-
+  width: 400px;
 }
 
 .wordDisplay {
