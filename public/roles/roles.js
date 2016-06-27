@@ -220,16 +220,6 @@ ngApp.controller('roleController', function($scope, $timeout) {
 
   $scope.checkedPlayerArray = [];
 
-  $scope.startGame = function() {
-    var playerList = $scope.checkedPlayerArray;
-    var i_randomPresident = Math.floor(Math.random()*$scope.playerNum);
-    $scope.scrutinizedPlayerArray = [];
-    $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length === $scope.scrutinies;
-    $scope.gameHasStarted = true;
-    // TODO: String should be built in the HTML, not in the JS
-    // Use something like {{thisPresident}} is PRESIDENT
-    $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
-  };
 
   $scope.hideRole = function() {
     if ($scope.gameHasEnded) {
@@ -269,7 +259,7 @@ ngApp.controller('roleController', function($scope, $timeout) {
       }
 
       $scope.scrutinizedPlayerArray.push(value);
-      $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies;
+      $scope.allScrutiniesUsed = $scope.scrutinizedPlayerArray.length === $scope.scrutinies;
       return;
     }
 
@@ -343,6 +333,7 @@ ngApp.controller('roleController', function($scope, $timeout) {
     // TODO: String should be built in the HTML, not in the JS
     // Use something like {{thisPresident}} is PRESIDENT
     $scope.thisPresident =  $scope.checkedPlayerArray[i_randomPresident] + " is PRESIDENT";
+    $scope.allScrutiniesUsed  = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies
   };
 
   function changePic(evt) {
