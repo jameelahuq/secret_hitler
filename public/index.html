@@ -61,7 +61,7 @@
       </div>
     </li>
   </ul>
-
+  <div id="thisPresident" ng-bind="thisPresident"></div>
   <button id="startButton" ng-if="allChecked && !gameHasStarted" ng-click="startGame()">Start Game</button>
   </div>
 
@@ -73,7 +73,6 @@
     <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">{{doneViewingText}}</button>
   </div>
 
-  <div id="thisPresident" ng-bind="thisPresident"></div>
   <div class="endGameScreen" ng-if="!roleShowing && allScrutiniesUsed">
     <button class="endGame row medium-12"  ng-if="!roleShowing && allScrutiniesUsed" ng-click="showEndGameDeets()">End Game</button>
   </div>

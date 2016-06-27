@@ -10,8 +10,8 @@
 /* Slide to unlock */
 .slide-to-unlock {
   position: relative;
-  width: 400px;
   height: 80px;
+  list-style: none;
 }
 
 .slide-to-unlock .dragdealer {
@@ -44,6 +44,7 @@
 .new-slider {
   background: black;
   cursor: pointer;
+  height: 100%;
   border-radius: 100%
 }
 .new-slider .dragdealer {
@@ -56,4 +57,5 @@
   left: 50%;
   width: 50%;
   color: #9999aa;
+  top: -25%;
 }
