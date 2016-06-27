@@ -52,8 +52,8 @@
       <!-- TODO: remove dead code everywhere -->
       <!-- TODO: strings should not be primary keys (DB design 101), have an array of objects instead where each object has a name property  -->
 
-  <ul ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing || allScrutiniesUsed">
-    <li class="slide-to-unlock new-slider" >
+  <ul ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing">
+    <li class="slide-to-unlock new-slider" ng-hide="allScrutiniesUsed" >
       <div id="{{player.playerName}}slider" class="dragdealer" style="display: block;"  >
         <div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateX(-400px);">
           <div class="slide-text" ng-role-slider><i ng-hide="gameHasStarted" class="fa fa-angle-right"></i><i ng-hide="!gameHasStarted" class="fa fa-eye"></i> {{player.playerName}}</div>
@@ -61,7 +61,7 @@
       </div>
     </li>
   </ul>
-  <div id="thisPresident" ng-bind="thisPresident"></div>
+
   <button id="startButton" ng-if="allChecked && !gameHasStarted" ng-click="startGame()">Start Game</button>
   </div>
 
@@ -71,6 +71,10 @@
       <li ng-repeat="descItem in desc track by $index">{{descItem}}</li>
     </ul>
     <button id="doneViewing" ng-if="roleShowing" ng-click="hideRole()">{{doneViewingText}}</button>
+  </div>
+
+  <div id="thisPresidentContainer">
+    <span id="thisPresident" ng-bind="thisPresident"></span>
   </div>
 
   <div class="endGameScreen" ng-show="!roleShowing && allScrutiniesUsed">

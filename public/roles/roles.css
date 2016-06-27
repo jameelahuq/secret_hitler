@@ -125,14 +125,16 @@ body {
   font-weight: bolder;
 }
 
-.president {
-  background-color: yellow;
-  width: auto;
+#thisPresidentContainer {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  text-align: center;
 }
 
 #thisPresident {
+  font-size: 30px;
   margin: auto;
-  font-size: 20px;
   text-align: center;
 }
 
