@@ -1,7 +1,7 @@
 "use strict";
 //TODO: clicking where you want slider to go makes it move too
 //only moving slider should cause anything, not clicking the slider box.
-var ngApp = angular.module('roleApp', ['rzModule', 'ngTouch']);
+var ngApp = angular.module('roleApp',[]);
 
 ngApp.controller('roleController', function($scope, $timeout) {
 
