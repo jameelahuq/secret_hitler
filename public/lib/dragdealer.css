@@ -7,18 +7,13 @@
  * http://legal.ovidiu.ch/licenses/MIT
  */
 
-.demo .dragdealer {
-  background: #e1e1e1;
-  height: 40px;
-  border-radius: 3px;
-}
-
 /* Slide to unlock */
 .slide-to-unlock {
   position: relative;
   width: 400px;
   height: 80px;
 }
+
 .slide-to-unlock .dragdealer {
   position: absolute;
   top: 0;

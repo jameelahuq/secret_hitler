@@ -23,15 +23,6 @@
 {{somethingWentWrongSorry}}
 <!-- TODO: fix all indentation -->
 
-<!--<div class="slide-to-unlock new-slider">-->
-  <!--<div id="JAMEELAslider" class="dragdealer" style="display: block;">-->
-    <!--<div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateX(-400px);">-->
-      <!--<div class="slide-text"><i class="fa fa-angle-right"></i> JAMEELA </div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-
-
   <form class="playerInputPanel" ng-model="playerInputPanelModel" ng-class="playerInputHiddenOrShown">
 
     <!-- TODO: use array and ng-repeat -->
@@ -55,22 +46,21 @@
 
 <!-- TODO: make buttons fit/scroll when there are 10 -->
 <!-- TODO: avoid IDs, move to classes when possible, IDs are like globals -->
-<!-- TODO: if it's a list, you probably want <ul class="playerRoleButtons"> and <li> wrapped buttons inside -->
 <!-- TODO: choose ng-if if it makes more sense -->
 
-<div id="playerButtonList" ng-show="showPlayerButtons && !allScrutiniesUsed" >
+<div id="playerSliderList" ng-show="showPlayerButtons && !allScrutiniesUsed" >
       <!-- TODO: remove dead code everywhere -->
       <!-- TODO: strings should not be primary keys (DB design 101), have an array of objects instead where each object has a name property  -->
 
-  <div ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing">
-    <div class="slide-to-unlock new-slider" >
+  <ul ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing">
+    <li class="slide-to-unlock new-slider" >
       <div id="{{player.playerName}}slider" class="dragdealer" style="display: block;"  >
         <div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateX(-400px);">
           <div class="slide-text" ng-role-slider><i ng-hide="gameHasStarted" class="fa fa-angle-right"></i><i ng-hide="!gameHasStarted" class="fa fa-eye"></i> {{player.playerName}}</div>
         </div>
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 
   <button id="startButton" ng-if="allChecked && !gameHasStarted" ng-click="startGame()">Start Game</button>
   </div>
