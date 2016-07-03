@@ -48,22 +48,22 @@
 <!-- TODO: avoid IDs, move to classes when possible, IDs are like globals -->
 <!-- TODO: choose ng-if if it makes more sense -->
 
-<div id="playerSliderList" ng-show="showPlayerButtons && !allScrutiniesUsed" >
+<ul id="playerSliderList" ng-show="showPlayerButtons && !allScrutiniesUsed" >
       <!-- TODO: remove dead code everywhere -->
       <!-- TODO: strings should not be primary keys (DB design 101), have an array of objects instead where each object has a name property  -->
 
-  <ul ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing">
-    <li class="slide-to-unlock new-slider" ng-hide="allScrutiniesUsed" >
+  <li ng-repeat='player in thisGamesPlayers' class="sliderWrapper row medium-6" ng-hide="roleShowing">
+    <div class="slide-to-unlock new-slider" ng-hide="allScrutiniesUsed" >
       <div id="{{player.playerName}}slider" class="dragdealer" style="display: block;"  >
         <div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateX(-400px);">
           <div class="slide-text" ng-role-slider><i ng-hide="gameHasStarted" class="fa fa-angle-right"></i><i ng-hide="!gameHasStarted" class="fa fa-eye"></i> {{player.playerName}}</div>
         </div>
       </div>
-    </li>
-  </ul>
+    </div>
+  </li>
 
   <button id="startButton" ng-if="allChecked && !gameHasStarted" ng-click="startGame()">Start Game</button>
-  </div>
+  </ul>
 
   <!-- TODO: ID soup... :( -->
   <div id="playerDescDisplay" ng-if="roleShowing || gameHasEnded" ng-class="gameStatus">

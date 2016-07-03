@@ -7,6 +7,9 @@ body {
   min-height: 400px;
 }
 
+ul {
+  margin-left: 0;
+}
 .playerInputPanel {
   height: 100%;
 }
@@ -41,6 +44,7 @@ body {
 #playerSliderList {
   text-align: center;
   height: 100%;
+  list-style: none;
 }
 
 .sliderWrapper {
