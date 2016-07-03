@@ -51,12 +51,6 @@ body {
   margin-bottom: 5px;
 }
 
-/*.slider-container {*/
-  /*border: 1px grey solid;*/
-  /*height: 8%;*/
-  /*position: relative;*/
-/*}*/
-
 .slider-container .playerName {
   position: relative;
   z-index: 1;
