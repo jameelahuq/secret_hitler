@@ -61,6 +61,12 @@ ul {
   color: red;
 }
 
+/*dragdealer.css override*/
+.new-slider .slide-text {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .scrutinySlider {
   position: absolute;
   top: 26px;
