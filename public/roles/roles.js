@@ -336,26 +336,40 @@ ngApp.controller('roleController', function($scope, $timeout) {
     $scope.allScrutiniesUsed  = $scope.scrutinizedPlayerArray.length >= $scope.scrutinies
   };
 
-  function changePic(evt) {
-    //bring selected photo in
-    //get files captured through input
-    var fileInput = evt.target.files;
-    if(fileInput.length > 0) {
-      //get the file
-    }
-
-    //window url
-    var windowURL = window.URL || window.webkitURL;
-
-    //picture url
-    var picURL = windowURL.createObjectURL(fileInput[0]);
-
-    console.log(picURL);
-  }
-
 });
 
+// Put event listeners into place
+  // Grab elements, create settings, etc.
+  var canvas = document.getElementById("canvas"),
+      context = canvas.getContext("2d"),
+      video = document.getElementById("video"),
+      videoObj = { "video": true },
+      errBack = function(error) {
+        console.log("Video capture error: ", error.code);
+      };
 
+  // Put video listeners into place
+  if(navigator.getUserMedia) { // Standard
+    navigator.getUserMedia(videoObj, function(stream) {
+      video.src = stream;
+      video.play();
+    }, errBack);
+  } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+    navigator.webkitGetUserMedia(videoObj, function(stream){
+      video.src = window.URL.createObjectURL(stream);
+      video.play();
+    }, errBack);
+  }
+  else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+    navigator.mozGetUserMedia(videoObj, function(stream){
+      video.src = window.URL.createObjectURL(stream);
+      video.play();
+    }, errBack);
+  }
+
+document.getElementById("snap").addEventListener("click", function() {
+  context.drawImage(video, 0, 0, 640, 480);
+});
 
 ngApp.directive('ngRoleSlider', function($rootScope, $timeout) {
 
