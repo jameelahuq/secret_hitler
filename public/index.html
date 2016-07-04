@@ -18,13 +18,9 @@
 
 <body ng-app="roleApp" ng-controller="roleController">
 
-
-<video id="video" autoplay></video>
-<button id="snap">Snap Photo</button>
-
-
-<canvas id="canvas" width="640" height="480"></canvas>
-<button class="take-photo"><span class="fa fa-camera"></span></button>
+  <button class="take-photo"><span class="fa fa-camera"></span></button>
+  <input type="file" accept="image/*" onchange="picChange(event)"/>
+  <canvas id="captured-photo"></canvas>
 <!--<div ng-model="stuff" ng-change="flipScreenOnSlide()">Value: {{slider.minValue}}</div>-->
 <!-- TODO: fix all indentation -->
 
